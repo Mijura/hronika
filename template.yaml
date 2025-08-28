@@ -14,10 +14,10 @@ Globals:
       AllowOrigin: "'*'"
 
 Resources:
-  SaveVersionFunction:
+  CommitVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/save-version/save-version.saveVersionHandler
+      Handler: src/infrastructure/controllers/commit-version/commit-version.commitVersionHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -46,7 +46,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/save-version/save-version.ts
+          - src/infrastructure/controllers/commit-version/commit-version.ts
 
 Outputs:
   VersionControlSystemApi:

@@ -4,7 +4,7 @@ import { ValidationError } from "@infrastructure/http/error-handler/errors/valid
 import { errorHandler } from "@infrastructure/http/error-handler"
 import { schemaValidator } from "@infrastructure/http/schema-validator"
 
-export async function saveVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function commitVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 		if (!body) throw new ValidationError("No page body")
 
