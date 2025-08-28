@@ -1,0 +1,22 @@
+import Responses from "src/infrastructure/http/api-responses"
+
+export function errorHandler(error: Error | unknown) {
+	console.error(error)
+
+	let response: any
+
+	if (error instanceof Error) {
+		switch (error.name) {
+			case "ValidationError":
+				response = Responses._400({ errorMessage: error.message })
+				break
+			default:
+				response = Responses._500({ errorMessage: "Something went wrong" })
+				break
+		}
+	} else {
+		response = Responses._500({ errorMessage: "Something went wrong" })
+	}
+
+	return response
+}
