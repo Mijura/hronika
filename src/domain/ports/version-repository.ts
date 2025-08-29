@@ -1,4 +1,4 @@
-import { Version } from "@domain/value-objects/version"
+import { Version } from "@domain/entities/version"
 
 export interface VersionRepository {
     save(version: Version): Promise<Version>
