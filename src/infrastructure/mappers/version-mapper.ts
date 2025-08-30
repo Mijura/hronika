@@ -8,8 +8,7 @@ export class VersionMapper {
 		return {
                   id: version.id,
                   projectId: version.projectId,
-                  buildArtifactUrl: version.buildArtifactUrl,
-                  sourceCodeUrl: version.sourceCodeUrl,
+                  artifactPath: version.artifactPath,
                   createdAt: version.createdAt
 		}
 	}
@@ -19,8 +18,7 @@ export class VersionMapper {
 		return Version.rehydrate({
                   id: record.id,
                   projectId: record.projectId,
-                  buildArtifactUrl: record.buildArtifactUrl,
-                  sourceCodeUrl: record.sourceCodeUrl,
+                  artifactPath: record.artifactPath,
                   createdAt: record.createdAt
 		})
 	}

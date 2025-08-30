@@ -1,29 +1,25 @@
 import { Version } from "@domain/entities/version"
 import { VersionRepository } from "@domain/ports/version-repository"
 import { CommitVersion } from "@domain/use-cases/commit-version"
-import { FileArtifacts } from "@domain/value-objects/file-artifacts"
-import { v4 as uuidv4 } from 'uuid'
+import { FileArtifacts, FileArtifactsStorage } from "@honeycomb-app/file-artifacts"
 
 export class CommitVersionUseCase implements CommitVersion{
 
     constructor(
-        private readonly versionRepository: VersionRepository
+        private readonly versionRepository: VersionRepository,
+        private readonly artifactsStorage: FileArtifactsStorage
     ) {}
 
-    async execute(projectId: string, sourceCodeArtifacts: FileArtifacts, buildArtifacts: FileArtifacts): Promise<void> {
+    async execute(projectId: string, fileArtifacts: FileArtifacts): Promise<void> {
         
-        const versionTag = uuidv4()
-		const sourceCodePath = `${projectId}/sourceCode/${versionTag}.tar.gz`
-		const buildArtifactPath = `${projectId}/buildArtifact/${versionTag}.tar.gz`
+        const version = Version.create(projectId)
 
 		const bucket = process.env.VERSION_CONTROL_BUCKET
 		if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
 
-		await this.push(buildArtifactPath, buildArtifacts)
-		await this.push(sourceCodePath, sourceCodeArtifacts)
+        await this.artifactsStorage.upload(bucket, version.artifactPath, fileArtifacts)
 
 		// Save the version
-		const version = Version.create(projectId, buildArtifactPath, sourceCodePath)
 		await this.versionRepository.save(version)
     }
 

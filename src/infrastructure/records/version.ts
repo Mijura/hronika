@@ -1,7 +1,6 @@
 export interface VersionRecord {
     id: string
     projectId: string
-    buildArtifactUrl: string
-    sourceCodeUrl: string
+    artifactPath: string
     createdAt: string
 }
