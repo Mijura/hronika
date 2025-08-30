@@ -2,6 +2,6 @@ import { Version } from "@domain/entities/version"
 
 export interface VersionRepository {
     save(version: Version): Promise<Version>
-    get(versionId: string): Promise<Version | null>
+    get(versionId: string): Promise<Version>
     getAll(projectId: string): Promise<Version[]>
 }
