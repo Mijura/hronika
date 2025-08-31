@@ -61,7 +61,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /pull-artifacts/
+            Path: /pull-artifacts/{projectId}
             Method: GET
 
   VersionTable:

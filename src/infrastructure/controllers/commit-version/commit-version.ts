@@ -22,7 +22,7 @@ export async function commitVersionHandler({ body }: APIGatewayProxyEvent): Prom
 		}
 
 		let response = {
-			statusCode: 202,
+			statusCode: 202
 		}
 
 		return Responses._202(response)
