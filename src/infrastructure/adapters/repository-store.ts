@@ -1,9 +1,8 @@
-import { DynamoDBClient, QueryCommand } from "@aws-sdk/client-dynamodb"
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb"
 import { Repository } from "@domain/entities/repositiory"
 import { RepositoryStore } from "@domain/ports/repository-store"
 import { RepositoryMapper } from "@infrastructure/mappers/repository-mapper"
-import { VersionMapper } from "@infrastructure/mappers/version-mapper"
 import { RepositoryRecord } from "@infrastructure/records/repository"
 
 const client = new DynamoDBClient({

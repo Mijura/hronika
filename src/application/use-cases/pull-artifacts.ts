@@ -14,17 +14,21 @@ export class PullArtifactsUseCase implements PullArtifacts {
     
     async execute(id: string): Promise<FileArtifacts> {
         
-        const repository: Repository = await this.repositoryStore.get(id)
+        try {
+            const repository: Repository = await this.repositoryStore.get(id)
 
-        const version: Version | null = repository.getCurrentVersion()
-        if (!version) {
-            throw new Error('Repository is empty')
+            const version: Version | null = repository.getCurrentVersion()
+            if (!version) {
+                throw new Error('Repository is empty')
+            }
+            
+            const bucket = process.env.VERSION_CONTROL_BUCKET
+            if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
+
+            return await this.artifactsStorage.download(bucket, version.artifactPath)
+        } catch (error) {
+            throw new Error(`Error pulling artifacts: ${error}`)
         }
-        
-		const bucket = process.env.VERSION_CONTROL_BUCKET
-		if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
-
-		return await this.artifactsStorage.download(bucket, version.artifactPath)
     }
 
 
