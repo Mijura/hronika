@@ -3,7 +3,7 @@ import { VersionRepository } from "@domain/ports/version-repository"
 import { PullArtifacts } from "@domain/use-cases/pull-artifacts"
 import { FileArtifacts, FileArtifactsStorage } from "@honeycomb-app/file-artifacts"
 
-export class PullSourceCodeUseCase implements PullArtifacts {
+export class PullArtifactsUseCase implements PullArtifacts {
 
     constructor(
         private readonly versionRepository: VersionRepository,

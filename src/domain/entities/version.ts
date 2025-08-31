@@ -10,7 +10,6 @@ export class Version {
     ) {}
 
     static create(projectId: string): Version {
-
         const id = uuidv4()
         const artifactPath = `${projectId}/${id}.tar.gz`
         return new Version(uuidv4(), projectId, artifactPath)
