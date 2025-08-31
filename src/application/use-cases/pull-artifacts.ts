@@ -1,20 +1,24 @@
 
-import { VersionRepository } from "@domain/ports/version-repository"
+import { Repository } from "@domain/entities/repositiory"
+import { Version } from "@domain/entities/version"
+import { RepositoryStore } from "@domain/ports/repository-store"
 import { PullArtifacts } from "@domain/use-cases/pull-artifacts"
 import { FileArtifacts, FileArtifactsStorage } from "@honeycomb-app/file-artifacts"
 
 export class PullArtifactsUseCase implements PullArtifacts {
 
     constructor(
-        private readonly versionRepository: VersionRepository,
+        private readonly repositoryStore: RepositoryStore,
         private readonly artifactsStorage: FileArtifactsStorage
     ){}
     
-    async execute(versionId: string): Promise<FileArtifacts> {
+    async execute(id: string): Promise<FileArtifacts> {
         
-        const version = await this.versionRepository.get(versionId)
+        const repository: Repository = await this.repositoryStore.get(id)
+
+        const version: Version | null = repository.getCurrentVersion()
         if (!version) {
-            throw new Error(`Version ${versionId} not found`)
+            throw new Error('Repository is empty')
         }
         
 		const bucket = process.env.VERSION_CONTROL_BUCKET

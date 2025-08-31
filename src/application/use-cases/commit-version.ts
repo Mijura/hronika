@@ -1,18 +1,21 @@
 import { Version } from "@domain/entities/version"
-import { VersionRepository } from "@domain/ports/version-repository"
+import { RepositoryStore } from "@domain/ports/repository-store"
 import { CommitVersion } from "@domain/use-cases/commit-version"
 import { FileArtifacts, FileArtifactsStorage } from "@honeycomb-app/file-artifacts"
 
 export class CommitVersionUseCase implements CommitVersion{
 
     constructor(
-        private readonly versionRepository: VersionRepository,
+        private readonly repositoryStore: RepositoryStore,
         private readonly artifactsStorage: FileArtifactsStorage
     ) {}
 
-    async execute(projectId: string, fileArtifacts: FileArtifacts): Promise<void> {
+    async execute(id: string, fileArtifacts: FileArtifacts): Promise<void> {
         
-        const version = Version.create(projectId)
+        if (!id) throw new Error('Repository id is required')
+        const repository = await this.repositoryStore.get(id)
+
+        const version = repository.addVersion()
 
 		const bucket = process.env.VERSION_CONTROL_BUCKET
 		if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
@@ -20,7 +23,7 @@ export class CommitVersionUseCase implements CommitVersion{
         await this.artifactsStorage.upload(bucket, version.artifactPath, fileArtifacts)
 
 		// Save the version
-		await this.versionRepository.save(version)
+		await this.repositoryStore.save(repository)
     }
 
 }

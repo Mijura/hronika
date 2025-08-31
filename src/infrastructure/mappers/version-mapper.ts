@@ -7,7 +7,6 @@ export class VersionMapper {
 	static toRecord(version: Version): VersionRecord {
 		return {
                   id: version.id,
-                  projectId: version.projectId,
                   artifactPath: version.artifactPath,
                   createdAt: version.createdAt
 		}
@@ -17,7 +16,6 @@ export class VersionMapper {
 	static toDomain(record: VersionRecord): Version {
 		return Version.rehydrate({
                   id: record.id,
-                  projectId: record.projectId,
                   artifactPath: record.artifactPath,
                   createdAt: record.createdAt
 		})
