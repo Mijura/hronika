@@ -1,7 +1,9 @@
 import { Repository } from "@domain/entities/repositiory"
+import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { RepositoryStore } from "@domain/ports/repository-store"
 import { CommitVersion } from "@domain/use-cases/commit-version"
-import { FileArtifacts, FileArtifactsStorage } from "@honeycomb-app/file-artifacts"
+import { FileArtifacts } from "@honeycomb-app/file-artifacts"
+import { NotFoundError } from "@infrastructure/http/error-handler/errors/not-found-error"
 
 export class CommitVersionUseCase implements CommitVersion{
 
@@ -13,7 +15,11 @@ export class CommitVersionUseCase implements CommitVersion{
     async execute(id: string, fileArtifacts: FileArtifacts): Promise<void> {
         
         try {
-            const repository: Repository = await this.repositoryStore.get(id)
+            const repository: Repository | null = await this.repositoryStore.get(id)
+
+            if (!repository) {
+                throw new NotFoundError('Repository not found')
+            }
 
             const version = repository.addVersion()
 

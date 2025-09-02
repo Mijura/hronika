@@ -28,7 +28,7 @@ export class DynamoDBRepositoryStore implements RepositoryStore {
         return repository
     }
 
-    async get(id: string): Promise<Repository> {
+    async get(id: string): Promise<Repository | null> {
         const tableName = process.env.REPOSITORY_TABLE
         console.log(`Getting repository with id: ${id} from DynamoDB table ${tableName}`)
 
@@ -44,7 +44,7 @@ export class DynamoDBRepositoryStore implements RepositoryStore {
             
             if (!result.Item) {
                 console.log(`Repository with id ${id} not found`)
-                throw new Error(`Version with id ${id} not found`)
+                return null
             }
 
             const repositoryRecord: RepositoryRecord = result.Item as RepositoryRecord

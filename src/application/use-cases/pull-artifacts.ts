@@ -1,9 +1,11 @@
 
 import { Repository } from "@domain/entities/repositiory"
 import { Version } from "@domain/entities/version"
+import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { RepositoryStore } from "@domain/ports/repository-store"
 import { PullArtifacts } from "@domain/use-cases/pull-artifacts"
-import { FileArtifacts, FileArtifactsStorage } from "@honeycomb-app/file-artifacts"
+import { FileArtifacts } from "@honeycomb-app/file-artifacts"
+import { NotFoundError } from "@infrastructure/http/error-handler/errors/not-found-error"
 
 export class PullArtifactsUseCase implements PullArtifacts {
 
@@ -15,7 +17,11 @@ export class PullArtifactsUseCase implements PullArtifacts {
     async execute(id: string): Promise<FileArtifacts> {
         
         try {
-            const repository: Repository = await this.repositoryStore.get(id)
+            const repository: Repository | null = await this.repositoryStore.get(id)
+
+            if (!repository) {
+                throw new NotFoundError('Repository not found')
+            }
 
             const version: Version | null = repository.getCurrentVersion()
             if (!version) {
