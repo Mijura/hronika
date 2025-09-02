@@ -1063,14 +1063,13 @@
   resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.25.9.tgz"
   integrity sha512-PPOl1mi6lpLNQxnGoyAfschAodRFYXJ+9fs6WHXz7CSWKbOqiMZsubC+BQsVKuul+3vKLuwTHsS2c2y9EoKwxQ==
 
-"@honeycomb-app/file-artifacts@^0.0.1":
-  version "0.0.1"
-  resolved "https://npm.pkg.github.com/download/@honeycomb-app/file-artifacts/0.0.1/2c9da21e6ed3ea6fff17492924d8e5e9c95b7620"
-  integrity sha512-7AqHN1PczmFKuxUXMlGyKpWETg/CD8Ij1Gt8IXztWUxxU2Bw68v+OfaaLVbk1VapbTI14t0ZesLStkdheCxTnw==
+"@honeycomb-app/file-artifacts@^0.0.3":
+  version "0.0.3"
+  resolved "https://npm.pkg.github.com/download/@honeycomb-app/file-artifacts/0.0.3/4a56a1cbc1d6e329210a8fb7cfa2d2b196ca6e22"
+  integrity sha512-ncQCumnZ+TXHzNtR1vb4pGELA85S2Ykjtj5UHpCsjE50ovpax0g6u52vCN/EL8pKhF4TPIx7avZ/kzflcrzjUA==
   dependencies:
     "@aws-sdk/client-s3" "^3.878.0"
     "@aws-sdk/lib-storage" "^3.878.0"
-    tar-stream "^3.1.7"
     uuid "^11.1.0"
 
 "@jridgewell/resolve-uri@^3.0.3":
@@ -1617,6 +1616,13 @@
   integrity sha512-uug3FEEGv0r+jrecvUUpbY8lLisvIjg6AAic6a2bSP5OEOLeJsDSnvhCDov7ipFFMXS3orMpzlmi0ZcuGkBbow==
   dependencies:
     undici-types "~6.21.0"
+
+"@types/tar-stream@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.npmjs.org/@types/tar-stream/-/tar-stream-3.1.4.tgz"
+  integrity sha512-921gW0+g29mCJX0fRvqeHzBlE/XclDaAG0Ousy1LCghsOhvaKacDeRGEVzQP9IPfKn8Vysy7FEXAIxycpc/CMg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/uuid@^10.0.0":
   version "10.0.0"
