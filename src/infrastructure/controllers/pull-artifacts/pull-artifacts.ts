@@ -7,14 +7,14 @@ import { pullArtifactsUseCase } from "@infrastructure/dependencies"
 export async function pullArtifactsHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 
-        const projectId = event.pathParameters?.projectId
+        const repositoryId = event.pathParameters?.repositoryId
 
-        if (!projectId) {
-            throw new ValidationError("Missing required path parameter: projectId")
+        if (!repositoryId) {
+            throw new ValidationError("Missing required path parameter: repositoryId")
         }
 
         try {
-            await pullArtifactsUseCase.execute(projectId)
+            await pullArtifactsUseCase.execute(repositoryId)
         } catch (error) {
             throw new Error(`Failed to pull artifacts: ${error}`)
         }

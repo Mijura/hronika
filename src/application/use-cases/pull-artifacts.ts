@@ -14,10 +14,10 @@ export class PullArtifactsUseCase implements PullArtifacts {
         private readonly artifactsStorage: FileArtifactsStorage
     ){}
     
-    async execute(id: string): Promise<FileArtifacts> {
+    async execute(repositoryId: string): Promise<FileArtifacts> {
         
         try {
-            const repository: Repository | null = await this.repositoryStore.get(id)
+            const repository: Repository | null = await this.repositoryStore.get(repositoryId)
 
             if (!repository) {
                 throw new NotFoundError('Repository not found')
