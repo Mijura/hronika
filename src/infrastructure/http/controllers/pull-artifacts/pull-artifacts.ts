@@ -1,8 +1,6 @@
-import Responses from "@infrastructure/http/api-responses"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { ValidationError } from "@infrastructure/http/error-handler/errors/validation-error"
-import { errorHandler } from "@infrastructure/http/error-handler"
 import { pullArtifactsUseCase } from "@infrastructure/dependencies"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-io/http"
 
 export async function pullArtifactsHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {

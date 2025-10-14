@@ -1,10 +1,8 @@
-import Responses from "@infrastructure/http/api-responses"
+
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { ValidationError } from "@infrastructure/http/error-handler/errors/validation-error"
-import { errorHandler } from "@infrastructure/http/error-handler"
-import { schemaValidator } from "@infrastructure/http/schema-validator"
 import { commitVersionUseCase } from "@infrastructure/dependencies"
 import { CommitVersionDTO, schema } from "@application/dto/commit-version"
+import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/http"
 
 export async function commitVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
