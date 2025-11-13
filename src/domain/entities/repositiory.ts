@@ -47,7 +47,7 @@ export class Repository {
 
     static rehydrate(data: { id: string; versions: Version[]; currentVersionId: string | null }): Repository {
         const repository = new Repository(data.id)
-        repository.versions = data.versions
+        repository.versions = data.versions.map(v => Version.rehydrate(v))
         repository.currentVersionId = data.currentVersionId
         return repository
     }
