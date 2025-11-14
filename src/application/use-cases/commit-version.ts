@@ -2,8 +2,8 @@ import { Repository } from "@domain/entities/repositiory"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { RepositoryStore } from "@domain/ports/repository-store"
 import { CommitVersion } from "@domain/use-cases/commit-version"
-import { FileArtifacts } from "@honeycomb-app/file-artifacts"
-import { NotFoundError } from "@infrastructure/http/error-handler/errors/not-found-error"
+import { FileArtifacts } from "@jigjoy-io/file-artifacts"
+import { NotFoundError } from "@jigjoy-io/serverless-core"
 
 export class CommitVersionUseCase implements CommitVersion{
 

@@ -2,7 +2,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { commitVersionUseCase } from "@infrastructure/dependencies"
 import { CommitVersionDTO, schema } from "@application/dto/commit-version"
-import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/http"
+import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 
 export async function commitVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {

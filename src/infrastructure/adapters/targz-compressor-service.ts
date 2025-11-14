@@ -1,6 +1,6 @@
 
 import { CompressorService } from '@domain/ports/compressor-service'
-import { FileArtifacts } from '@honeycomb-app/file-artifacts'
+import { FileArtifacts } from '@jigjoy-io/file-artifacts'
 import { Readable } from 'stream'
 import * as tar from 'tar-stream'
 import * as zlib from 'zlib'
