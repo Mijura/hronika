@@ -23,7 +23,7 @@ export class PullArtifactsUseCase implements PullArtifacts {
                 throw new NotFoundError('Repository not found')
             }
 
-            const version: Version | null = repository.getCurrentVersion()
+            const version: Version | null = repository.getLatest()
             if (!version) {
                 throw new Error('Repository is empty')
             }

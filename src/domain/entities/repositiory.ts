@@ -4,13 +4,13 @@ import { Version } from './version'
 export class Repository {
 
     private versions: Version[]
-    private currentVersionId: string | null
+    private latest: Version | null
 
     private constructor(
         public readonly id: string
     ) {
         this.versions = []
-        this.currentVersionId = null
+        this.latest = null
     }
 
     static create(): Repository {
@@ -22,33 +22,29 @@ export class Repository {
         const artifactPath = `${this.id}/${versionId}.tar.gz`
         const version = new Version(versionId, artifactPath)
         this.versions.push(version)
-        this.currentVersionId = version.id
+        this.latest = version
         return version
     }
 
-    setCurrentVersion(versionId: string) {
-        const exists = this.versions.some(v => v.id === versionId)
-        if (!exists) throw new Error("Version not found")
+    setLatest(versionId: string) {
+        const version = this.versions.find(v => v.id === versionId)
+        if (!version) throw new Error("Version not found")
     
-        this.currentVersionId = versionId
+        this.latest = version
     }
 
-    getCurrentVersionId(): string | null {
-        return this.currentVersionId
-    }
-
-    getCurrentVersion(): Version | null {
-        return this.versions.find(v => v.id === this.currentVersionId) || null
+    getLatest(): Version | null {
+        return this.latest
     }
     
     getVersions(): ReadonlyArray<Version> {
         return [...this.versions]
     }
 
-    static rehydrate(data: { id: string; versions: Version[]; currentVersionId: string | null }): Repository {
+    static rehydrate(data: { id: string; versions: Version[]; latest: Version | null }): Repository {
         const repository = new Repository(data.id)
         repository.versions = data.versions.map(v => Version.rehydrate(v))
-        repository.currentVersionId = data.currentVersionId
+        repository.latest = data.latest
         return repository
     }
 
