@@ -1,7 +1,6 @@
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { CompressorService } from "@domain/ports/compressor-service"
-import { FileArtifacts } from "@honeycomb-app/file-artifacts"
-import { FileStorage } from "@honeycomb-app/file-artifacts"
+import { FileArtifacts, FileStorage } from "@jigjoy-io/file-artifacts"
 import { Readable } from "stream"
 
 export class S3ArtifactsStorage implements FileArtifactsStorage {

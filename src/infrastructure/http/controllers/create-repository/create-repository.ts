@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { CommitVersionDTO, schema } from "@application/dto/commit-version"
 import { createRepositoryUseCase } from "@infrastructure/dependencies"
-import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/http"
+import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 
 export async function createRepositoryHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {

@@ -947,10 +947,10 @@
     "@aws-sdk/lib-storage" "^3.878.0"
     uuid "^11.1.0"
 
-"@jigjoy-io/http@^0.0.2":
-  version "0.0.2"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-io/http/0.0.2/c210eb833a1f491b9ba181cf05d8f1b196d84227"
-  integrity sha512-O/ExLv0BVl9kCqKaskSgMlJ7Dhmbk3MsdgjBmOrajKbgyJ9+iG/0gAdGQEEZL6Db3IZoY9vd6bkVMz3rVLkcpg==
+"@jigjoy-io/serverless-core@^0.0.3":
+  version "0.0.3"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-io/serverless-core/0.0.3/0a297ded5291934d46d57123003aee167563501b"
+  integrity sha512-9Zd/bNyGxQJgBU6rVxhkRxlbo1us+7AS23g1FIKt43TXUcnqq+HzuUURu5X2G+XgrcJ33nFWHEZQj8iNAKxGIg==
   dependencies:
     ajv "^8.17.1"
     ajv-formats "^3.0.1"
