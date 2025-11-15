@@ -44,25 +44,25 @@ Resources:
         EntryPoints:
           - src/infrastructure/controllers/initialize-project-history.ts
 
-  CommitVersionFunction:
+  saveArtifactsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/commit-version/commit-version.commitVersionHandler
+      Handler: src/infrastructure/controllers/save-artifacts.saveArtifactsHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Create and save a version of a files
+      Description: Save file artifacts
       Environment:
         Variables:
           VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
-          VERSION_TABLE: !Ref RepositoryTable
+          PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /commit-version/
+            Path: /save-artifacts/
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -71,33 +71,41 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/commit-version/commit-version.ts
+          - src/infrastructure/controllers/save-artifacts.ts
 
-  PullArtifactsFunction:
+  FetchArtifactsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/pull-artifacts/pull-artifacts.pullArtifactsHandler
+      Handler: src/infrastructure/controllers/fetch-artifacts.pullArtifactsHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Pull artifacts from a version
+      Description: Fetch latest project artifacts
       Environment:
         Variables:
           VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
-          VERSION_TABLE: !Ref RepositoryTable
+          PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /pull-artifacts/{repositoryId}
+            Path: /fetch-artifacts/{projectHistoryId}
             Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/controllers/fetch-artifacts.ts
 
-  RepositoryTable:
+  ProjectHistoryTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Repository
+      TableName: ProjectHistory
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
@@ -108,7 +116,7 @@ Resources:
 
 Outputs:
   VersionControlSystemApi:
-    Description: "API Gateway URL for version control system"
+    Description: "API Gateway URL for project versioning"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
     Export:
       Name: VersionControlSystemApi 

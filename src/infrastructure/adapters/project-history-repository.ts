@@ -2,7 +2,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb"
 import { ProjectHistory } from "@domain/entities/project-history"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { ProjectHistoryMapper } from "@infrastructure/mappers/repository-mapper"
+import { ProjectHistoryMapper } from "@infrastructure/mappers/project-history-mapper"
 import { ProjectHistoryRecord } from "@infrastructure/records/project-history"
 
 const client = new DynamoDBClient({
@@ -14,7 +14,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(client)
 export class DynamoDBProjectHistoryRepository implements ProjectHistoryRepository {
 
     async save(projectHistory: ProjectHistory): Promise<ProjectHistory> {
-        const tableName = process.env.REPOSITORY_TABLE
+        const tableName = process.env.PROJECT_HISTORY_TABLE
         console.log(`Saving project history with id: ${projectHistory.id} to DynamoDB table ${tableName}`)
 
         const historyRecord: ProjectHistoryRecord = ProjectHistoryMapper.toRecord(projectHistory)
@@ -29,7 +29,7 @@ export class DynamoDBProjectHistoryRepository implements ProjectHistoryRepositor
     }
 
     async get(id: string): Promise<ProjectHistory | null> {
-        const tableName = process.env.REPOSITORY_TABLE
+        const tableName = process.env.PROJECT_HISTORY_TABLE
         console.log(`Getting project history with id: ${id} from DynamoDB table ${tableName}`)
 
         const params = {
