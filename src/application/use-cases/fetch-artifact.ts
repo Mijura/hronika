@@ -1,20 +1,20 @@
 
+import { ArtifactDTO } from "@application/dto/artifact"
 import { Repository } from "@domain/entities/repositiory"
 import { Version } from "@domain/entities/version"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { RepositoryStore } from "@domain/ports/repository-store"
-import { PullArtifacts } from "@domain/use-cases/pull-artifacts"
-import { FileArtifacts } from "@jigjoy-io/file-artifacts"
+import { FetchArtifact } from "@domain/use-cases/fetch-artifact"
 import { NotFoundError } from "@jigjoy-io/serverless-core"
 
-export class PullArtifactsUseCase implements PullArtifacts {
+export class FetchArtifactUseCase implements FetchArtifact {
 
     constructor(
         private readonly repositoryStore: RepositoryStore,
         private readonly artifactsStorage: FileArtifactsStorage
     ){}
     
-    async execute(repositoryId: string): Promise<FileArtifacts> {
+    async execute(repositoryId: string): Promise<ArtifactDTO> {
         
         try {
             const repository: Repository | null = await this.repositoryStore.get(repositoryId)
@@ -31,7 +31,19 @@ export class PullArtifactsUseCase implements PullArtifacts {
             const bucket = process.env.VERSION_CONTROL_BUCKET
             if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
 
-            return await this.artifactsStorage.download(bucket, version.artifactPath)
+            const [buildArtifact, sourceCodeArtifact] = await Promise.all([
+                this.artifactsStorage.download(bucket, version.buildPath),
+                this.artifactsStorage.download(bucket, version.sourceCodePath)
+            ])
+
+            const artifact: ArtifactDTO = {
+                repositoryId: repositoryId, 
+                build: buildArtifact,
+                sourceCode: sourceCodeArtifact
+            }
+
+            return artifact
+
         } catch (error) {
             throw new Error(`Error pulling artifacts: ${error}`)
         }

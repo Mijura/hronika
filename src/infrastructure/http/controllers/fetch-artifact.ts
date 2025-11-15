@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { pullArtifactsUseCase } from "@infrastructure/dependencies"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { fetchArtifactUseCase } from "@infrastructure/dependencies"
 
-export async function pullArtifactsHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function fetchArtifactHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 
         const repositoryId = event.pathParameters?.repositoryId
@@ -12,7 +12,7 @@ export async function pullArtifactsHandler(event: APIGatewayProxyEvent): Promise
         }
 
         try {
-            await pullArtifactsUseCase.execute(repositoryId)
+            await fetchArtifactUseCase.execute(repositoryId)
         } catch (error) {
             throw new Error(`Failed to pull artifacts: ${error}`)
         }

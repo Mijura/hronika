@@ -4,13 +4,13 @@ import { Version } from './version'
 export class Repository {
 
     private versions: Version[]
-    private latest: Version | null
+    private latestVersionId: string | null
 
     private constructor(
         public readonly id: string
     ) {
         this.versions = []
-        this.latest = null
+        this.latestVersionId = null
     }
 
     static create(): Repository {
@@ -19,33 +19,38 @@ export class Repository {
 
     addVersion(): Version {
         const versionId = uuidv4()
-        const artifactPath = `${this.id}/${versionId}.tar.gz`
-        const version = new Version(versionId, artifactPath)
+        const buildPath = `${this.id}/artifacts/${versionId}.tar.gz`
+        const sourceCodePath = `${this.id}/sources/${versionId}.tar.gz`
+        const version = new Version(versionId, buildPath, sourceCodePath)
         this.versions.push(version)
-        this.latest = version
+        this.latestVersionId = version.id
         return version
     }
 
     setLatest(versionId: string) {
-        const version = this.versions.find(v => v.id === versionId)
-        if (!version) throw new Error("Version not found")
-    
-        this.latest = version
+        const exists = this.versions.some(v => v.id === versionId)
+        if (!exists) throw new Error("Version not found in this repository")
+        this.latestVersionId = versionId
     }
 
     getLatest(): Version | null {
-        return this.latest
+        if (!this.latestVersionId) return null
+        return this.versions.find(v => v.id === this.latestVersionId) ?? null
     }
     
     getVersions(): ReadonlyArray<Version> {
         return [...this.versions]
     }
 
-    static rehydrate(data: { id: string; versions: Version[]; latest: Version | null }): Repository {
+    static rehydrate(data: {
+        id: string
+        versions: any[]
+        latestVersionId: string | null
+      }): Repository {
         const repository = new Repository(data.id)
         repository.versions = data.versions.map(v => Version.rehydrate(v))
-        repository.latest = data.latest
+        repository.latestVersionId = data.latestVersionId
         return repository
-    }
+      }
 
 }
