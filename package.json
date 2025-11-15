@@ -1,6 +1,6 @@
 {
-    "name": "version-control-system",
-    "description": "Serverless API for version control system",
+    "name": "project-versioning",
+    "description": "Serverless API for project versioning",
     "version": "0.0.1",
     "private": true,
     "dependencies": {
