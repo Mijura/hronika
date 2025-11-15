@@ -1,19 +1,19 @@
-import { Repository } from "@domain/entities/project-history"
-import { VersionMapper } from "./version-mapper"
-import { RepositoryRecord } from "@infrastructure/records/repository"
+import { ProjectHistory } from "@domain/entities/project-history"
+import { ProjectHistoryRecord } from "@infrastructure/records/project-history"
+import { ProjectSnapshotMapper } from "./project-snapshot-mapper"
 
-export class RepositoryMapper {
+export class ProjectHistoryMapper {
 
-    static toRecord(repository: Repository): RepositoryRecord {
+    static toRecord(history: ProjectHistory): ProjectHistoryRecord {
         return {
-            id: repository.id,
-            versions: repository.getVersions().map(version => VersionMapper.toRecord(version)),
-            currentVersionId: repository.getCurrentVersionId() || null
+            id: history.id,
+            snapshots: history.getSnapshots().map(snapshot => ProjectSnapshotMapper.toRecord(snapshot)),
+            latestSnapshotId: history.getLatestSnapshotId()
         }
     }
 
-    static toDomain(record: RepositoryRecord): Repository {
-        return  Repository.rehydrate(record)
+    static toDomain(record: ProjectHistoryRecord): ProjectHistory {
+        return  ProjectHistory.rehydrate(record)
     }
 
 }

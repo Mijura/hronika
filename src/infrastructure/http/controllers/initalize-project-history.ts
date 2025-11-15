@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { createRepositoryUseCase } from "@infrastructure/dependencies"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { initalizeProjectHistoryUseCase } from "@infrastructure/dependencies"
 
 export async function initailizeProjectHistoryHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
@@ -9,7 +9,7 @@ export async function initailizeProjectHistoryHandler({ body }: APIGatewayProxyE
 		let historyId: string
 
 		try {
-			historyId = await createRepositoryUseCase.execute()
+			historyId = await initalizeProjectHistoryUseCase.execute()
 		} catch (error) {
 			throw new Error(`Failed to create repository: ${error}`)
 		}

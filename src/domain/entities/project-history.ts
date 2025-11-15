@@ -1,5 +1,5 @@
+import { ProjectSnapshot } from '@domain/value-objects/project-snapshot'
 import { v4 as uuidv4 } from 'uuid'
-import { ProjectSnapshot } from './project-snapshot'
 
 export class ProjectHistory {
 
@@ -36,6 +36,10 @@ export class ProjectHistory {
     getLatestSnapshot(): ProjectSnapshot | null {
         if (!this.latestSnapshotId) return null
         return this.snapshots.find(s => s.id === this.latestSnapshotId) ?? null
+    }
+
+    getLatestSnapshotId(): string | null {
+        return this.latestSnapshotId
     }
     
     getSnapshots(): ReadonlyArray<ProjectSnapshot> {
