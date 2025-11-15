@@ -1,6 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb"
-import { Repository } from "@domain/entities/repositiory"
+import { Repository } from "@domain/entities/project-history"
 import { RepositoryStore } from "@domain/ports/repository-store"
 import { RepositoryMapper } from "@infrastructure/mappers/repository-mapper"
 import { RepositoryRecord } from "@infrastructure/records/repository"

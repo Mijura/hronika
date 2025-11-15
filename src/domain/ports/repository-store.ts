@@ -1,6 +1,6 @@
-import { Repository } from "@domain/entities/repositiory"
+import { ProjectHistory } from "@domain/entities/project-history"
 
 export interface RepositoryStore {
-    save(repository: Repository): Promise<Repository>
-    get(id: string): Promise<Repository | null>
+    save(repository: ProjectHistory): Promise<ProjectHistory>
+    get(id: string): Promise<ProjectHistory | null>
 }

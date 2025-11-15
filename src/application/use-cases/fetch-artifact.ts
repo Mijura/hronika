@@ -1,13 +1,13 @@
 
-import { ArtifactDTO } from "@application/dto/artifact"
-import { Repository } from "@domain/entities/repositiory"
-import { Version } from "@domain/entities/version"
+import { ArtifactDTO } from "@application/dto/create-snapshot"
+import { Repository } from "@domain/entities/project-history"
+import { Version } from "@domain/entities/project-snapshot"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { RepositoryStore } from "@domain/ports/repository-store"
-import { FetchArtifact } from "@domain/use-cases/fetch-artifact"
+import { FetchSnapshot } from "@domain/use-cases/fetch-latest-snapshot"
 import { NotFoundError } from "@jigjoy-io/serverless-core"
 
-export class FetchArtifactUseCase implements FetchArtifact {
+export class FetchSnapshotUseCase implements FetchSnapshot {
 
     constructor(
         private readonly repositoryStore: RepositoryStore,

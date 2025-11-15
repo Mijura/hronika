@@ -2,17 +2,17 @@ import { FileArtifacts } from "@jigjoy-io/file-artifacts"
 
 export const schema = {
 	type: "object",
-	required: ["repositoryId", "build", "sourceCode"],
+	required: ["repositoryId", "buildArtifacts", "sourceCodeArtifacts"],
 	properties: {
 		projectId: {
 			type: "string",
 		},
-		build: {
+		buildArtifacts: {
 			type: "object",
 			additionalProperties: { type: "string" },
 			description: "Pre-built source code files"
 		},
-		sourceCode: {
+		sourceCodeArtifacts: {
 			type: "object",
 			additionalProperties: { type: "string" },
 			description: "Source code files"
@@ -20,8 +20,8 @@ export const schema = {
 	},
 }
 
-export interface ArtifactDTO {
-    repositoryId: string
-    build: FileArtifacts,
-	sourceCode: FileArtifacts
+export interface CreateSnapshotDTO {
+    historyId: string
+    buildArtifacts: FileArtifacts,
+	sourceCodeArtifacts: FileArtifacts
 }

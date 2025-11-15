@@ -1,8 +1,8 @@
-import { ArtifactDTO } from "@application/dto/artifact"
-import { Repository } from "@domain/entities/repositiory"
+import { ArtifactDTO } from "@application/dto/create-snapshot"
+import { ProjectHistory } from "@domain/entities/project-history"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { RepositoryStore } from "@domain/ports/repository-store"
-import { SaveArtifact } from "@domain/use-cases/save-artifact"
+import { SaveArtifact } from "@domain/use-cases/create-snapshot"
 import { NotFoundError } from "@jigjoy-io/serverless-core"
 
 export class SaveArtifactUseCase implements SaveArtifact {
@@ -15,24 +15,24 @@ export class SaveArtifactUseCase implements SaveArtifact {
     async execute(artifact: ArtifactDTO): Promise<void> {
         
         try {
-            const repository: Repository | null = await this.repositoryStore.get(artifact.repositoryId)
+            const projectHistory: ProjectHistory | null = await this.repositoryStore.get(artifact.repositoryId)
 
-            if (!repository) {
+            if (!projectHistory) {
                 throw new NotFoundError('Repository not found')
             }
 
-            const version = repository.addVersion()
+            const snapshot = projectHistory.addSnapshot()
 
             const bucket = process.env.VERSION_CONTROL_BUCKET
             if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
 
-            const sourcePromise = this.artifactsStorage.upload(bucket, version.sourceCodePath, artifact.build)
-            const artifactPromise = this.artifactsStorage.upload(bucket, version.buildPath, artifact.sourceCode)
+            const sourcePromise = this.artifactsStorage.upload(bucket, snapshot.sourceCodePath, artifact.build)
+            const artifactPromise = this.artifactsStorage.upload(bucket, snapshot.buildPath, artifact.sourceCode)
 
             await Promise.all([sourcePromise, artifactPromise])
 
-            // Save the version
-            await this.repositoryStore.save(repository)
+            // Update the history
+            await this.repositoryStore.save(projectHistory)
         } catch (error) {
             throw new Error(`Error committing version: ${error}`)
         }

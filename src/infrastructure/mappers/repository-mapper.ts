@@ -1,4 +1,4 @@
-import { Repository } from "@domain/entities/repositiory"
+import { Repository } from "@domain/entities/project-history"
 import { VersionMapper } from "./version-mapper"
 import { RepositoryRecord } from "@infrastructure/records/repository"
 
