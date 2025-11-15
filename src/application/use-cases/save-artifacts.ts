@@ -20,7 +20,7 @@ export class SaveArtifactsUseCase implements SaveArtifacts {
             const projectHistory: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
 
             if (!projectHistory) {
-                throw new NotFoundError('Repository not found')
+                throw new NotFoundError('Project history not found')
             }
 
             const snapshot = projectHistory.addSnapshot()
@@ -36,7 +36,7 @@ export class SaveArtifactsUseCase implements SaveArtifacts {
             // Update the history
             await this.projectHistoryRepository.save(projectHistory)
         } catch (error) {
-            throw new Error(`Error committing version: ${error}`)
+            throw new Error(`Error during saving artifacts version: ${error}`)
         }
     }
 

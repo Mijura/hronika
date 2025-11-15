@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  version-control-system
+  project-versioning
 
 Transform:
 - AWS::Serverless-2016-10-31
@@ -15,25 +15,25 @@ Globals:
 
 Resources:
 
-  CreateRepositoryFunction:
+  initializeProjectHistoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/create-repository/create-repository.createRepositoryHandler
+      Handler: src/infrastructure/controllers/initialize-project-history.initializeProjectHistoryHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Create a new repository
+      Description: Initialize a project history
       Environment:
         Variables:
           VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
-          VERSION_TABLE: !Ref RepositoryTable
+          PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /create-repository
+            Path: /initilaize-project-history
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -42,7 +42,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/create-repository/create-repository.ts
+          - src/infrastructure/controllers/initialize-project-history.ts
 
   CommitVersionFunction:
     Type: AWS::Serverless::Function

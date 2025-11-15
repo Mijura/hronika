@@ -1,22 +1,27 @@
 import { ProjectHistory } from "@domain/entities/project-history"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { InitalizeProjectHistory } from "@domain/use-cases/initalize-project-history"
+import { InitializeProjectHistory } from "@domain/use-cases/initialize-project-history"
 
-export class InitializeProjectHistoryUseCase implements InitalizeProjectHistory {
+export class InitializeProjectHistoryUseCase implements InitializeProjectHistory {
 
     constructor(
         private readonly projectHistoryRepository: ProjectHistoryRepository
     ) {}
 
     async execute(): Promise<string> {
-        console.log(`Creating repository with id`)
+
+        console.log(`Project history initialization in progress`)
+
         const history: ProjectHistory = ProjectHistory.create()
+
         try {
+
             await this.projectHistoryRepository.save(history)
-            console.log(`Project history intialized with id: ${history.id}`)
+            console.log(`Project history initialized with id: ${history.id}`)
             return history.id
+            
         } catch (error) {
-            throw new Error(`Error initalizing project history: ${error}`)
+            throw new Error(`Error initializing project history: ${error}`)
         }
     }
 }
