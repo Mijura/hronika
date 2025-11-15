@@ -18,7 +18,7 @@ Resources:
   initializeProjectHistoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/initialize-project-history.initializeProjectHistoryHandler
+      Handler: src/infrastructure/http/controllers/initialize-project-history.initializeProjectHistoryHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -42,12 +42,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/initialize-project-history.ts
+          - src/infrastructure/http/controllers/initialize-project-history.ts
 
   saveArtifactsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/save-artifacts.saveArtifactsHandler
+      Handler: src/infrastructure/http/controllers/save-artifacts.saveArtifactsHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -71,12 +71,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/save-artifacts.ts
+          - src/infrastructure/http/controllers/save-artifacts.ts
 
   FetchArtifactsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/fetch-artifacts.pullArtifactsHandler
+      Handler: src/infrastructure/http/controllers/fetch-artifacts.pullArtifactsHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -100,7 +100,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/fetch-artifacts.ts
+          - src/infrastructure/http/controllers/fetch-artifacts.ts
 
   ProjectHistoryTable:
     Type: AWS::DynamoDB::Table
