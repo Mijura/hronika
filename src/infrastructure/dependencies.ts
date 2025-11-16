@@ -1,5 +1,5 @@
 import { S3ArtifactsStorage } from "./adapters/s3-artifacts-storage"
-import { FileStorage, FileStorageProvider } from "@jigjoy-io/file-artifacts"
+import { FileStorage, FileStorageProvider } from "@jigjoy-io/file-storage"
 import { CompressorService } from "@domain/ports/compressor-service"
 import { TarGzCompressorService } from "./adapters/targz-compressor-service"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
