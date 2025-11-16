@@ -1,1 +1,0 @@
-export const JIGJOY_VCS_ENDPOINT = process.env.JIGJOY_VCS_ENDPOINT || "https://4tfv1gv2ch.execute-api.eu-west-1.amazonaws.com/Prod"

@@ -5,7 +5,7 @@ import { InitializeProjectHistory } from "@domain/use-cases/initialize-project-h
 export class InitializeProjectHistoryUseCase implements InitializeProjectHistory {
 
     constructor(
-        private readonly projectHistoryRepository: ProjectHistoryRepository
+        private readonly historyRepo: ProjectHistoryRepository
     ) {}
 
     async execute(): Promise<string> {
@@ -16,7 +16,7 @@ export class InitializeProjectHistoryUseCase implements InitializeProjectHistory
 
         try {
 
-            await this.projectHistoryRepository.save(history)
+            await this.historyRepo.save(history)
             console.log(`Project history initialized with id: ${history.id}`)
             return history.id
             

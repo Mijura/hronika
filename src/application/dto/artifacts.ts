@@ -1,4 +1,4 @@
-import { FileArtifacts } from "@jigjoy-io/file-artifacts"
+import { FileArtifacts } from "@domain/value-objects/file-artifacts"
 
 export const schema = {
 	type: "object",
