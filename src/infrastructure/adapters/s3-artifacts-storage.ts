@@ -1,6 +1,7 @@
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { CompressorService } from "@domain/ports/compressor-service"
-import { FileArtifacts, FileStorage } from "@jigjoy-io/file-artifacts"
+import { FileStorage } from "@jigjoy-io/file-storage"
+import { FileArtifacts } from "@domain/value-objects/file-artifacts"
 import { Readable } from "stream"
 
 export class S3ArtifactsStorage implements FileArtifactsStorage {
