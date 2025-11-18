@@ -11,7 +11,7 @@ export class TarGzCompressorService implements CompressorService {
         const pack = tar.pack()
 
         for (const [filePath, content] of Object.entries(files)) {
-        pack.entry({ name: filePath }, content)
+            pack.entry({ name: filePath }, content)
         }
 
         pack.finalize()
