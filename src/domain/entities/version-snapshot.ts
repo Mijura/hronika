@@ -1,4 +1,4 @@
-export class ProjectSnapshot {
+export class VersionSnapshot {
 
     constructor(
         public readonly id: string,
@@ -12,8 +12,8 @@ export class ProjectSnapshot {
         buildPath: string 
         sourceCodePath: string 
         createdAt: string 
-    }): ProjectSnapshot {    
-        return new ProjectSnapshot(data.id, data.buildPath, data.sourceCodePath, data.createdAt)
+    }): VersionSnapshot {    
+        return new VersionSnapshot(data.id, data.buildPath, data.sourceCodePath, data.createdAt)
     }
 
 }

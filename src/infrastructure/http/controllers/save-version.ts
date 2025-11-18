@@ -1,18 +1,18 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { saveArtifactsUseCase } from "@infrastructure/dependencies"
-import { ArtifactsDTO, schema } from "@application/dto/artifacts"
+import { saveVersionUseCase } from "@infrastructure/dependencies"
+import { VersionDTO, schema } from "@application/dto/version"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 
-export async function saveArtifactsHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function saveVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 		if (!body) throw new ValidationError("No page body")
 
-		const artifacts: ArtifactsDTO = JSON.parse(body)
-        schemaValidator(schema, artifacts)
+		const version: VersionDTO = JSON.parse(body)
+        schemaValidator(schema, version)
 
 		try {
-			await saveArtifactsUseCase.execute(artifacts)
+			await saveVersionUseCase.execute(version)
 		} catch (error) {
 			throw new Error(`Failed to : ${error}`)
 		}

@@ -1,13 +1,13 @@
 import { ProjectHistory } from "@domain/entities/project-history"
 import { ProjectHistoryRecord } from "@infrastructure/records/project-history"
-import { ProjectSnapshotMapper } from "./project-snapshot-mapper"
+import { VersionSnapshotMapper } from "./version-snapshot-mapper"
 
 export class ProjectHistoryMapper {
 
     static toRecord(history: ProjectHistory): ProjectHistoryRecord {
         return {
             id: history.id,
-            snapshots: history.getSnapshots().map(snapshot => ProjectSnapshotMapper.toRecord(snapshot)),
+            snapshots: history.getSnapshots().map(snapshot => VersionSnapshotMapper.toRecord(snapshot)),
             latestSnapshotId: history.getLatestSnapshotId()
         }
     }

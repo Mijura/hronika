@@ -1,19 +1,19 @@
-import { ArtifactsDTO } from "@application/dto/artifacts"
 import { ProjectHistory } from "@domain/entities/project-history"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { FetchProjectArtifacts } from "@domain/use-cases/fetch-project-artifacts"
-import { ProjectSnapshot } from "@domain/value-objects/project-snapshot"
+import { VersionSnapshot } from "@domain/entities/version-snapshot"
 import { NotFoundError } from "@jigjoy-io/serverless-core"
+import { GetLatestVersion } from "@domain/use-cases/get-latest-version"
+import { VersionDTO } from "@application/dto/version"
 
-export class FetchProjectArtifactsUseCase implements FetchProjectArtifacts {
+export class GetLatestVersionUseCase implements GetLatestVersion {
 
     constructor(
         private readonly projectHistoryRepository: ProjectHistoryRepository,
         private readonly artifactsStorage: FileArtifactsStorage
     ){}
     
-    async execute(projectHistoryId: string): Promise<ArtifactsDTO> {
+    async execute(projectHistoryId: string): Promise<VersionDTO> {
         
         try {
             const history: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
@@ -22,8 +22,8 @@ export class FetchProjectArtifactsUseCase implements FetchProjectArtifacts {
                 throw new NotFoundError('Repository not found')
             }
 
-            const projectSnapshot: ProjectSnapshot | null = history.getLatestSnapshot()
-            if (!projectSnapshot) {
+            const versionSnapshot: VersionSnapshot | null = history.getLatestSnapshot()
+            if (!versionSnapshot) {
                 throw new Error('Project history is empty')
             }
             
@@ -31,17 +31,17 @@ export class FetchProjectArtifactsUseCase implements FetchProjectArtifacts {
             if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
 
             const [buildArtifacts, sourceCodeArtifacts] = await Promise.all([
-                this.artifactsStorage.download(bucket, projectSnapshot.buildPath),
-                this.artifactsStorage.download(bucket, projectSnapshot.sourceCodePath)
+                this.artifactsStorage.download(bucket, versionSnapshot.buildPath),
+                this.artifactsStorage.download(bucket, versionSnapshot.sourceCodePath)
             ])
 
-            const artifacts: ArtifactsDTO = {
+            const version: VersionDTO = {
                 projectHistoryId: projectHistoryId, 
                 buildArtifacts: buildArtifacts,
                 sourceCodeArtifacts: sourceCodeArtifacts
             }
 
-            return artifacts
+            return version
 
         } catch (error) {
             throw new Error(`Error pulling artifacts: ${error}`)
