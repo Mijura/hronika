@@ -1,22 +1,22 @@
-import { ArtifactsDTO } from "@application/dto/artifacts"
+import { VersionDTO } from "@application/dto/version"
 import { ProjectHistory } from "@domain/entities/project-history"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { SaveArtifacts } from "@domain/use-cases/save-artifacts"
+import { SaveVersion } from "@domain/use-cases/save-version"
 import { NotFoundError } from "@jigjoy-io/serverless-core"
 
-export class SaveArtifactsUseCase implements SaveArtifacts {
+export class SaveVersionUseCase implements SaveVersion {
 
     constructor(
         private readonly projectHistoryRepository: ProjectHistoryRepository,
         private readonly artifactsStorage: FileArtifactsStorage
     ) {}
 
-    async execute(artifactsDto: ArtifactsDTO): Promise<void> {
+    async execute(versionDTO: VersionDTO): Promise<void> {
         
         try {
 
-            const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = artifactsDto
+            const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = versionDTO
             const projectHistory: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
 
             if (!projectHistory) {

@@ -1,4 +1,4 @@
-interface ProjectSnapshotRecord {
+interface VersionSnapshotRecord {
     id: string
     buildPath: string
     sourceCodePath: string

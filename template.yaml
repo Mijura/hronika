@@ -44,16 +44,16 @@ Resources:
         EntryPoints:
           - src/infrastructure/http/controllers/initialize-project-history.ts
 
-  saveArtifactsFunction:
+  saveVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/save-artifacts.saveArtifactsHandler
+      Handler: src/infrastructure/http/controllers/save-artifacts.saveVersionHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Save file artifacts
+      Description: Save project version
       Environment:
         Variables:
           VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
@@ -62,7 +62,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /save-artifacts/
+            Path: /save-version/
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -71,18 +71,18 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/save-artifacts.ts
+          - src/infrastructure/http/controllers/save-version.ts
 
   FetchArtifactsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/fetch-artifacts.pullArtifactsHandler
+      Handler: src/infrastructure/http/controllers/get-latest-version.getLatestVersionHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Fetch latest project artifacts
+      Description: Fetch latest project version
       Environment:
         Variables:
           VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
@@ -91,7 +91,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /fetch-artifacts/{projectHistoryId}
+            Path: /get-latest-version/{projectHistoryId}
             Method: GET
     Metadata:
       BuildMethod: esbuild
@@ -100,7 +100,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/fetch-artifacts.ts
+          - src/infrastructure/http/controllers/get-latest-version.ts
 
   ProjectHistoryTable:
     Type: AWS::DynamoDB::Table

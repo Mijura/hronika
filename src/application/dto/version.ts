@@ -20,7 +20,7 @@ export const schema = {
 	},
 }
 
-export interface ArtifactsDTO {
+export interface VersionDTO {
     projectHistoryId: string
     buildArtifacts: FileArtifacts,
 	sourceCodeArtifacts: FileArtifacts

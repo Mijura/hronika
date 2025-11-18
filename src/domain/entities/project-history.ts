@@ -1,9 +1,9 @@
-import { ProjectSnapshot } from '@domain/value-objects/project-snapshot'
+import { VersionSnapshot } from '@domain/entities/version-snapshot'
 import { v4 as uuidv4 } from 'uuid'
 
 export class ProjectHistory {
 
-    private snapshots: ProjectSnapshot[]
+    private snapshots: VersionSnapshot[]
     private latestSnapshotId: string | null
 
     private constructor(
@@ -17,11 +17,11 @@ export class ProjectHistory {
         return new ProjectHistory(uuidv4())
     }
 
-    addSnapshot(): ProjectSnapshot {
+    addSnapshot(): VersionSnapshot {
         const snapshotId = uuidv4()
         const buildPath = `${this.id}/build/${snapshotId}.tar.gz`
         const sourceCodePath = `${this.id}/source/${snapshotId}.tar.gz`
-        const snapshot = new ProjectSnapshot(snapshotId, buildPath, sourceCodePath)
+        const snapshot = new VersionSnapshot(snapshotId, buildPath, sourceCodePath)
         this.snapshots.push(snapshot)
         this.latestSnapshotId = snapshot.id
         return snapshot
@@ -33,7 +33,7 @@ export class ProjectHistory {
         this.latestSnapshotId = snapshotId
     }
 
-    getLatestSnapshot(): ProjectSnapshot | null {
+    getLatestSnapshot(): VersionSnapshot | null {
         if (!this.latestSnapshotId) return null
         return this.snapshots.find(s => s.id === this.latestSnapshotId) ?? null
     }
@@ -42,7 +42,7 @@ export class ProjectHistory {
         return this.latestSnapshotId
     }
     
-    getSnapshots(): ReadonlyArray<ProjectSnapshot> {
+    getSnapshots(): ReadonlyArray<VersionSnapshot> {
         return [...this.snapshots]
     }
 
@@ -52,7 +52,7 @@ export class ProjectHistory {
         latestSnapshotId: string | null
       }): ProjectHistory {
         const history = new ProjectHistory(data.id)
-        history.snapshots = data.snapshots.map(s => ProjectSnapshot.rehydrate(s))
+        history.snapshots = data.snapshots.map(s => VersionSnapshot.rehydrate(s))
         history.latestSnapshotId = data.latestSnapshotId
         return history
       }
