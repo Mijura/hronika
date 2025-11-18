@@ -8,7 +8,8 @@ export class S3ArtifactsStorage implements FileArtifactsStorage {
     
     constructor(private readonly fileStorage: FileStorage, private readonly compressorService: CompressorService) {}
     
-    async upload(bucket: string, path: string, fileArtifacts: FileArtifacts): Promise<void> {
+	async upload(bucket: string, path: string, fileArtifacts: FileArtifacts): Promise<void> {
+		
 		const archive = await this.compressorService.compress(fileArtifacts)
 		const stream = Readable.from(archive)
 

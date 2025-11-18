@@ -28,30 +28,32 @@ export class TarGzCompressorService implements CompressorService {
         const gunzip = zlib.createGunzip()
 
         extract.on('entry', (header, stream, next) => {
-        let content = ''
-        stream.on('data', chunk => (content += chunk.toString()))
-        stream.on('end', () => {
-            result[header.name] = content
-            next()
-        })
-        stream.resume()
+            let content = ''
+            stream.on('data', chunk => (content += chunk.toString()))
+            stream.on('end', () => {
+                result[header.name] = content
+                next()
+            })
+            stream.resume()
         })
 
-        const stream = Readable.from(archive).pipe(gunzip).pipe(extract)
         await new Promise<void>((resolve, reject) => {
             extract.on('finish', resolve)
             extract.on('error', reject)
         })
+
+        Readable.from(archive).pipe(gunzip).pipe(extract)
+
 
         return result
     }
 
     private streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
         return new Promise((resolve, reject) => {
-                const chunks: Buffer[] = []
-                stream.on('data', chunk => chunks.push(chunk))
-                stream.on('end', () => resolve(Buffer.concat(chunks)))
-                stream.on('error', reject)
+            const chunks: Buffer[] = []
+            stream.on('data', chunk => chunks.push(chunk))
+            stream.on('end', () => resolve(Buffer.concat(chunks)))
+            stream.on('error', reject)
         })
     }
 }
