@@ -47,7 +47,7 @@ Resources:
   SaveVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/save-artifacts.saveVersionHandler
+      Handler: src/infrastructure/http/controllers/save-version.saveVersionHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -73,7 +73,7 @@ Resources:
         EntryPoints:
           - src/infrastructure/http/controllers/save-version.ts
 
-  FetchArtifactsFunction:
+  GetLatestVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/infrastructure/http/controllers/get-latest-version.getLatestVersionHandler
