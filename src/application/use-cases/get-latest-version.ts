@@ -26,13 +26,10 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
             if (!versionSnapshot) {
                 throw new Error('Project history is empty')
             }
-            
-            const bucket = process.env.VERSION_CONTROL_BUCKET
-            if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
 
             const [buildArtifacts, sourceCodeArtifacts] = await Promise.all([
-                this.artifactsStorage.download(bucket, versionSnapshot.buildPath),
-                this.artifactsStorage.download(bucket, versionSnapshot.sourceCodePath)
+                this.artifactsStorage.get(versionSnapshot.buildPath),
+                this.artifactsStorage.get(versionSnapshot.sourceCodePath)
             ])
 
             const version: VersionDTO = {

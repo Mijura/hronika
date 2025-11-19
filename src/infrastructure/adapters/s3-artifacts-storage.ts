@@ -1,23 +1,22 @@
+
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
-import { CompressorService } from "@domain/ports/compressor-service"
-import { FileStorage } from "@jigjoy-io/file-storage"
 import { FileArtifacts } from "@domain/value-objects/file-artifacts"
-import { Readable } from "stream"
+import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
 
-export class S3ArtifactsStorage implements FileArtifactsStorage {
+export class S3Storage implements FileArtifactsStorage {
     
-    constructor(private readonly fileStorage: FileStorage, private readonly compressorService: CompressorService) {}
-    
-	async upload(bucket: string, path: string, fileArtifacts: FileArtifacts): Promise<void> {
-		
-		const archive = await this.compressorService.compress(fileArtifacts)
-		const stream = Readable.from(archive)
+    storage: Storage
 
-		await this.fileStorage.upload(bucket, path, stream)
+    constructor(bucket: string) {
+        const factory = new S3StorageFactory(bucket)
+        this.storage = factory.create()
+    }
+    
+	async save(path: string, fileArtifacts: FileArtifacts): Promise<string> {
+		return this.storage.writeArchive(path, fileArtifacts)
     }
 
-    async download(bucket: string, archivePath: string): Promise<FileArtifacts> {
-        const buffer = await this.fileStorage.download(bucket, archivePath)
-		return this.compressorService.decompress(buffer)
+    async get(archivePath: string): Promise<FileArtifacts> {
+        return this.storage.readArchive(archivePath)
     }
 }

@@ -25,11 +25,8 @@ export class SaveVersionUseCase implements SaveVersion {
 
             const snapshot = projectHistory.addSnapshot()
 
-            const bucket = process.env.VERSION_CONTROL_BUCKET
-            if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
-
-            const sourceCodePromise = this.artifactsStorage.upload(bucket, snapshot.sourceCodePath, sourceCodeArtifacts)
-            const buildPromise = this.artifactsStorage.upload(bucket, snapshot.buildPath, buildArtifacts)
+            const sourceCodePromise = this.artifactsStorage.save(snapshot.sourceCodePath, sourceCodeArtifacts)
+            const buildPromise = this.artifactsStorage.save(snapshot.buildPath, buildArtifacts)
 
             await Promise.all([sourceCodePromise, buildPromise])
 
