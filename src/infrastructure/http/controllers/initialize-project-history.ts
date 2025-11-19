@@ -1,23 +1,19 @@
 import { APIGatewayProxyResult } from "aws-lambda"
-import { errorHandler, Responses } from "@jigjoy-io/serverless-core"
+import { Responses } from "@jigjoy-io/serverless-core"
 import { initializeProjectHistoryUseCase } from "@infrastructure/dependencies"
+import { errorHandler } from "@infrastructure/http/error-handler"
 
 export async function initializeProjectHistoryHandler(): Promise<APIGatewayProxyResult> {
 	try {
-		let historyId: string
-
-		try {
-			historyId = await initializeProjectHistoryUseCase.execute()
-		} catch (error) {
-			throw new Error(`Failed to initialize project history: ${error}`)
-		}
+		let historyId: string = await initializeProjectHistoryUseCase.execute()
 
 		let response = {
 			statusCode: 202,
 			body: JSON.stringify({ historyId })
 		}
 
-		return Responses._202(response)
+		return Responses._201(response)
+
 	} catch (error) {
 		return errorHandler(error)
 	}
