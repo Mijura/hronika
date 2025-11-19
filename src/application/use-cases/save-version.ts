@@ -1,5 +1,6 @@
 import { VersionDTO } from "@application/dto/version"
 import { ProjectHistory } from "@domain/entities/project-history"
+import { VersionSnapshot } from "@domain/entities/version-snapshot"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
 import { SaveVersion } from "@domain/use-cases/save-version"
@@ -23,14 +24,19 @@ export class SaveVersionUseCase implements SaveVersion {
                 throw new NotFoundError('Project history not found')
             }
 
-            const snapshot = projectHistory.addSnapshot()
+            // create a snapshot form file artifacts
+            const buildFolderPath = `${projectHistoryId}/build`
+            const sourceCodeFolderPath = `${projectHistoryId}/source`
+            
+            const sourceCodePromise = this.artifactsStorage.uploadAsArchive(sourceCodeFolderPath, sourceCodeArtifacts)
+            const buildPromise = this.artifactsStorage.uploadAsArchive(buildFolderPath, buildArtifacts)
 
-            const sourceCodePromise = this.artifactsStorage.save(snapshot.sourceCodePath, sourceCodeArtifacts)
-            const buildPromise = this.artifactsStorage.save(snapshot.buildPath, buildArtifacts)
+            const [buildPath, sourceCodePath] = await Promise.all([sourceCodePromise, buildPromise])
 
-            await Promise.all([sourceCodePromise, buildPromise])
+            const snapshot = VersionSnapshot.create(buildPath, sourceCodePath)
 
-            // Update the history
+            // add snapshot and save
+            projectHistory.addSnapshot(snapshot)
             await this.projectHistoryRepository.save(projectHistory)
         } catch (error) {
             throw new Error(`Error during saving artifacts version: ${error}`)

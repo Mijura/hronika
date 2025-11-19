@@ -8,12 +8,12 @@ export interface FileArtifactsStorage {
      * @param fileArtifacts 
      * @returns
      */
-    save(folderName: string, fileArtifacts: FileArtifacts): Promise<string>
+    uploadAsArchive(folderName: string, fileArtifacts: FileArtifacts): Promise<string>
     
     /**
      * 
      * @param archivePath 
      * @returns 
      */
-    get(archivePath: string): Promise<FileArtifacts>
+    download(archivePath: string): Promise<FileArtifacts>
 }

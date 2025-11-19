@@ -13,18 +13,10 @@ export class ProjectHistory {
         this.latestSnapshotId = null
     }
 
-    static create(): ProjectHistory {
-        return new ProjectHistory(uuidv4())
-    }
-
-    addSnapshot(): VersionSnapshot {
-        const snapshotId = uuidv4()
-        const buildPath = `${this.id}/build/${snapshotId}.tar.gz`
-        const sourceCodePath = `${this.id}/source/${snapshotId}.tar.gz`
-        const snapshot = new VersionSnapshot(snapshotId, buildPath, sourceCodePath)
+    addSnapshot(snapshot: VersionSnapshot): VersionSnapshot[] {
         this.snapshots.push(snapshot)
         this.latestSnapshotId = snapshot.id
-        return snapshot
+        return this.snapshots
     }
 
     setLatest(snapshotId: string) {
@@ -44,6 +36,10 @@ export class ProjectHistory {
     
     getSnapshots(): ReadonlyArray<VersionSnapshot> {
         return [...this.snapshots]
+    }
+
+    static create(): ProjectHistory {
+        return new ProjectHistory(uuidv4())
     }
 
     static rehydrate(data: {

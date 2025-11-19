@@ -28,8 +28,8 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
             }
 
             const [buildArtifacts, sourceCodeArtifacts] = await Promise.all([
-                this.artifactsStorage.get(versionSnapshot.buildPath),
-                this.artifactsStorage.get(versionSnapshot.sourceCodePath)
+                this.artifactsStorage.download(versionSnapshot.buildPath),
+                this.artifactsStorage.download(versionSnapshot.sourceCodePath)
             ])
 
             const version: VersionDTO = {

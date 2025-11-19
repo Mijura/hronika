@@ -5,18 +5,13 @@
     "private": true,
     "dependencies": {
         "@aws-sdk/client-dynamodb": "^3.398.0",
-        "@aws-sdk/client-s3": "^3.744.0",
         "@aws-sdk/lib-dynamodb": "^3.398.0",
         "@jigjoy-io/file-artifacts": "^0.0.3",
-        "@jigjoy-io/serverless-core": "^0.0.3",
-        "ajv": "^8.16.0",
-        "ajv-formats": "^3.0.1",
-        "tar-stream": "^3.1.7"
+        "@jigjoy-io/serverless-core": "^0.0.3"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.140",
         "@types/node": "^20.14.9",
-        "@types/tar-stream": "^3.1.4",
         "@types/uuid": "^10.0.0",
         "esbuild": "^0.25.9",
         "ts-node": "^10.9.2",

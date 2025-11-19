@@ -12,11 +12,11 @@ export class S3Storage implements FileArtifactsStorage {
         this.storage = factory.create()
     }
     
-	async save(path: string, fileArtifacts: FileArtifacts): Promise<string> {
+	async uploadAsArchive(path: string, fileArtifacts: FileArtifacts): Promise<string> {
 		return this.storage.writeArchive(path, fileArtifacts)
     }
 
-    async get(archivePath: string): Promise<FileArtifacts> {
+    async download(archivePath: string): Promise<FileArtifacts> {
         return this.storage.readArchive(archivePath)
     }
 }
