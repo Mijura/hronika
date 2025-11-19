@@ -2,8 +2,8 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb"
 import { ProjectHistory } from "@domain/entities/project-history"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { ProjectHistoryMapper } from "@infrastructure/mappers/project-history-mapper"
-import { ProjectHistoryRecord } from "@infrastructure/records/project-history"
+import { ProjectHistoryMapper } from "@infrastructure/storage/mappers/project-history-mapper"
+import { ProjectHistoryRecord } from "@infrastructure/storage/records/project-history"
 
 const client = new DynamoDBClient({
     region: process.env.AWS_REGION,

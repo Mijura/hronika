@@ -1,5 +1,5 @@
 import { ProjectHistory } from "@domain/entities/project-history"
-import { ProjectHistoryRecord } from "@infrastructure/records/project-history"
+import { ProjectHistoryRecord } from "@infrastructure/storage/records/project-history"
 import { VersionSnapshotMapper } from "./version-snapshot-mapper"
 
 export class ProjectHistoryMapper {

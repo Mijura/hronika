@@ -1,8 +1,8 @@
-import { S3Storage } from "@infrastructure/adapters/s3-artifacts-storage"
+import { S3Storage } from "@infrastructure/storage/s3-artifacts-storage"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { InitializeProjectHistoryUseCase } from "@application/use-cases/initialize-project-history"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { DynamoDBProjectHistoryRepository } from "@infrastructure/adapters/project-history-repository"
+import { DynamoDBProjectHistoryRepository } from "@infrastructure/storage/project-history-repository"
 import { SaveVersionUseCase } from "@application/use-cases/save-version"
 import { GetLatestVersionUseCase } from "@application/use-cases/get-latest-version"
 
