@@ -15,7 +15,7 @@ Globals:
 
 Resources:
 
-  initializeProjectHistoryFunction:
+  InitializeProjectHistoryFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/infrastructure/http/controllers/initialize-project-history.initializeProjectHistoryHandler
@@ -44,7 +44,7 @@ Resources:
         EntryPoints:
           - src/infrastructure/http/controllers/initialize-project-history.ts
 
-  saveVersionFunction:
+  SaveVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/infrastructure/http/controllers/save-artifacts.saveVersionHandler
