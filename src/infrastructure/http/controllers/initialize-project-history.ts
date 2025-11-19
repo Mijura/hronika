@@ -7,12 +7,7 @@ export async function initializeProjectHistoryHandler(): Promise<APIGatewayProxy
 	try {
 		let historyId: string = await initializeProjectHistoryUseCase.execute()
 
-		let response = {
-			statusCode: 202,
-			body: JSON.stringify({ historyId })
-		}
-
-		return Responses._201(response)
+		return Responses._201(historyId)
 
 	} catch (error) {
 		return errorHandler(error)
