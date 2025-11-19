@@ -6,6 +6,7 @@ import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverle
 import { errorHandler } from "@infrastructure/http/error-handler"
 
 export async function saveVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+	
 	try {
 		if (!body) throw new ValidationError("No page body")
 
