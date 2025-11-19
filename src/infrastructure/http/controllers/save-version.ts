@@ -2,7 +2,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { saveVersionUseCase } from "@infrastructure/dependencies"
 import { VersionDTO, schema } from "@application/dto/version"
-import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
+import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
+import { errorHandler } from "@infrastructure/http/error-handler"
 
 export async function saveVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
@@ -11,17 +12,9 @@ export async function saveVersionHandler({ body }: APIGatewayProxyEvent): Promis
 		const version: VersionDTO = JSON.parse(body)
         schemaValidator(schema, version)
 
-		try {
-			await saveVersionUseCase.execute(version)
-		} catch (error) {
-			throw new Error(`Failed to : ${error}`)
-		}
+		await saveVersionUseCase.execute(version)
 
-		let response = {
-			statusCode: 202
-		}
-
-		return Responses._202(response)
+		return Responses._201()
 	} catch (error) {
 		return errorHandler(error)
 	}

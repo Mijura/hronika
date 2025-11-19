@@ -2,9 +2,9 @@ import { ProjectHistory } from "@domain/entities/project-history"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
-import { NotFoundError } from "@jigjoy-io/serverless-core"
 import { GetLatestVersion } from "@domain/use-cases/get-latest-version"
 import { VersionDTO } from "@application/dto/version"
+import { ProjectHistoryNotFoundError } from "@domain/errors/project-history-not-found-error"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {
 
@@ -19,7 +19,7 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
             const history: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
 
             if (!history) {
-                throw new NotFoundError('Repository not found')
+                throw new ProjectHistoryNotFoundError(projectHistoryId)
             }
 
             const versionSnapshot: VersionSnapshot | null = history.getLatestSnapshot()

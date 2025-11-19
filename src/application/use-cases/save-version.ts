@@ -1,10 +1,10 @@
 import { VersionDTO } from "@application/dto/version"
 import { ProjectHistory } from "@domain/entities/project-history"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
+import { ProjectHistoryNotFoundError } from "@domain/errors/project-history-not-found-error"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
 import { SaveVersion } from "@domain/use-cases/save-version"
-import { NotFoundError } from "@jigjoy-io/serverless-core"
 
 export class SaveVersionUseCase implements SaveVersion {
 
@@ -21,7 +21,7 @@ export class SaveVersionUseCase implements SaveVersion {
             const projectHistory: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
 
             if (!projectHistory) {
-                throw new NotFoundError('Project history not found')
+                throw new ProjectHistoryNotFoundError(projectHistoryId)
             }
 
             // create a snapshot form file artifacts
