@@ -6,6 +6,12 @@ import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverle
 import { errorHandler } from "@infrastructure/http/error-handler"
 import { Version } from "@domain/value-objects/version"
 
+/**
+ * Lambda handler for saving a new version snapshot to a project history.
+ * 
+ * @param event - The API Gateway proxy event containing the request body with version data
+ * @returns A promise that resolves to an API Gateway proxy result indicating success or an error response
+ */
 export async function saveVersionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	
 	try {

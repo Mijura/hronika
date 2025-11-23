@@ -13,6 +13,14 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
         private readonly artifactsStorage: FileArtifactsStorage
     ){}
     
+    /**
+     * Retrieves the latest version of a project, including build and source code artifacts.
+     * 
+     * @param projectHistoryId - The unique identifier of the project history
+     * @returns A promise that resolves to the latest version with build and source code artifacts
+     * @throws {ProjectHistoryNotFound} If the project history with the given ID does not exist
+     * @throws {Error} If the project history is empty or if there's an error pulling artifacts
+     */
     async execute(projectHistoryId: string): Promise<Version> {
         
         try {
