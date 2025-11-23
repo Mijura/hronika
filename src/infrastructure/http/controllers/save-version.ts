@@ -4,7 +4,7 @@ import { saveVersionUseCase } from "@infrastructure/dependencies"
 import { VersionDTO, schema } from "@infrastructure/http/dto/version"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infrastructure/http/error-handler"
-import { Version } from "@domain/value-objects/version"
+import { Version } from "@application/value-objects/version"
 
 /**
  * Lambda handler for saving a new version snapshot to a project history.

@@ -1,16 +1,15 @@
 import { ProjectHistory } from "@domain/entities/project-history"
-import { VersionSnapshot } from "@domain/entities/version-snapshot"
 import { ProjectHistoryNotFound } from "@application/errors/project-history-not-found"
-import { FileArtifactsStorage } from "@application/ports/outbound/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@application/ports/outbound/project-history-repository"
 import { SaveVersion } from "@application/ports/inbound/save-version"
-import { Version } from "@domain/value-objects/version"
+import { Version } from "@application/value-objects/version"
+import { VersionStorage } from "@application/ports/outbound/version-storage"
 
 export class SaveVersionUseCase implements SaveVersion {
 
     constructor(
-        private readonly projectHistoryRepository: ProjectHistoryRepository,
-        private readonly artifactsStorage: FileArtifactsStorage
+        private readonly historyRepo: ProjectHistoryRepository,
+        private readonly versionStorage: VersionStorage
     ) {}
 
     /**
@@ -25,26 +24,17 @@ export class SaveVersionUseCase implements SaveVersion {
         
         try {
 
-            const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = version
-            const projectHistory: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
+            const projectHistoryId = version.projectHistoryId
+            const projectHistory: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
 
             if (!projectHistory) {
                 throw new ProjectHistoryNotFound(projectHistoryId)
             }
 
-            // create a snapshot form file artifacts
-            const buildFolderPath = `${projectHistoryId}/build`
-            const sourceCodeFolderPath = `${projectHistoryId}/source`
-            
-            const sourceCodePromise = this.artifactsStorage.uploadAsArchive(sourceCodeFolderPath, sourceCodeArtifacts)
-            const buildPromise = this.artifactsStorage.uploadAsArchive(buildFolderPath, buildArtifacts)
+            const snapshot = await this.versionStorage.save(version)
 
-            const [buildPath, sourceCodePath] = await Promise.all([sourceCodePromise, buildPromise])
-
-            // add version snapshot
-            const snapshot = VersionSnapshot.create(buildPath, sourceCodePath)
             projectHistory.addSnapshot(snapshot)
-            await this.projectHistoryRepository.save(projectHistory)
+            await this.historyRepo.save(projectHistory)
         } catch (error) {
             throw new Error(`Error during saving artifacts version: ${error}`)
         }

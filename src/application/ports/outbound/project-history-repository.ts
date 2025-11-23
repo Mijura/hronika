@@ -1,6 +1,7 @@
 import { ProjectHistory } from "@domain/entities/project-history"
 
 export interface ProjectHistoryRepository {
+    
     /**
      * Saves a project history entity to the repository.
      * 

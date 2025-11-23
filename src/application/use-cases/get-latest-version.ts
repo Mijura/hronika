@@ -1,16 +1,16 @@
 import { ProjectHistory } from "@domain/entities/project-history"
-import { FileArtifactsStorage } from "@application/ports/outbound/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@application/ports/outbound/project-history-repository"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
 import { GetLatestVersion } from "@application/ports/inbound/get-latest-version"
 import { ProjectHistoryNotFound } from "@application/errors/project-history-not-found"
-import { Version } from "@domain/value-objects/version"
+import { Version } from "@application/value-objects/version"
+import { VersionStorage } from "@application/ports/outbound/version-storage"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {
 
     constructor(
         private readonly historyRepo: ProjectHistoryRepository,
-        private readonly artifactsStorage: FileArtifactsStorage
+        private readonly versionStorage: VersionStorage
     ){}
     
     /**
@@ -30,21 +30,12 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
                 throw new ProjectHistoryNotFound(projectHistoryId)
             }
 
-            const versionSnapshot: VersionSnapshot | null = history.getLatestSnapshot()
-            if (!versionSnapshot) {
+            const snapshot: VersionSnapshot | null = history.getLatestSnapshot()
+            if (!snapshot) {
                 throw new Error('Project history is empty')
             }
 
-            const [buildArtifacts, sourceCodeArtifacts] = await Promise.all([
-                this.artifactsStorage.download(versionSnapshot.buildArchivePath),
-                this.artifactsStorage.download(versionSnapshot.sourceCodeArchivePath)
-            ])
-
-            const version: Version = {
-                projectHistoryId: projectHistoryId, 
-                buildArtifacts: buildArtifacts,
-                sourceCodeArtifacts: sourceCodeArtifacts
-            }
+            const version = this.versionStorage.restore(projectHistoryId, snapshot)
 
             return version
 
