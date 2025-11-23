@@ -1,9 +1,9 @@
 import { ProjectHistory } from "@domain/entities/project-history"
-import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
-import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
+import { FileArtifactsStorage } from "@application/ports/outbound/file-artifacts-storage"
+import { ProjectHistoryRepository } from "@application/ports/outbound/project-history-repository"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
-import { GetLatestVersion } from "@domain/use-cases/get-latest-version"
-import { ProjectHistoryNotFound } from "@domain/errors/project-history-not-found"
+import { GetLatestVersion } from "@application/ports/inbound/get-latest-version"
+import { ProjectHistoryNotFound } from "@application/errors/project-history-not-found"
 import { Version } from "@domain/value-objects/version"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {

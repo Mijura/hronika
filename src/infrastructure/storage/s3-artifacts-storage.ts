@@ -1,5 +1,5 @@
 
-import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
+import { FileArtifactsStorage } from "@application/ports/outbound/file-artifacts-storage"
 import { FileArtifacts } from "@domain/value-objects/file-artifacts"
 import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
 
