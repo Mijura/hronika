@@ -9,14 +9,14 @@ import { ProjectHistoryNotFoundError } from "@domain/errors/project-history-not-
 export class GetLatestVersionUseCase implements GetLatestVersion {
 
     constructor(
-        private readonly projectHistoryRepository: ProjectHistoryRepository,
+        private readonly historyRepo: ProjectHistoryRepository,
         private readonly artifactsStorage: FileArtifactsStorage
     ){}
     
     async execute(projectHistoryId: string): Promise<VersionDTO> {
         
         try {
-            const history: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
+            const history: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
 
             if (!history) {
                 throw new ProjectHistoryNotFoundError(projectHistoryId)

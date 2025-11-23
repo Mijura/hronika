@@ -33,9 +33,8 @@ export class SaveVersionUseCase implements SaveVersion {
 
             const [buildPath, sourceCodePath] = await Promise.all([sourceCodePromise, buildPromise])
 
+            // add version snapshot
             const snapshot = VersionSnapshot.create(buildPath, sourceCodePath)
-
-            // add snapshot and save
             projectHistory.addSnapshot(snapshot)
             await this.projectHistoryRepository.save(projectHistory)
         } catch (error) {
