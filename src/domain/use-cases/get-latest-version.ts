@@ -1,5 +1,5 @@
-import { VersionDTO } from "@application/dto/version"
+import { Version } from "@domain/value-objects/version"
 
 export interface GetLatestVersion {
-    execute(projectHistoryId: string): Promise<VersionDTO>
+    execute(projectHistoryId: string): Promise<Version>
 }

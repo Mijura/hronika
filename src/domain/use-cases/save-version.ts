@@ -1,5 +1,5 @@
-import { VersionDTO } from "@application/dto/version"
+import { Version } from "@domain/value-objects/version"
 
 export interface SaveVersion {
-    execute(version: VersionDTO): Promise<void>
+    execute(version: Version): Promise<void>
 }

@@ -1,10 +1,10 @@
-import { VersionDTO } from "@application/dto/version"
 import { ProjectHistory } from "@domain/entities/project-history"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
 import { ProjectHistoryNotFoundError } from "@domain/errors/project-history-not-found-error"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
 import { SaveVersion } from "@domain/use-cases/save-version"
+import { Version } from "@domain/value-objects/version"
 
 export class SaveVersionUseCase implements SaveVersion {
 
@@ -13,11 +13,11 @@ export class SaveVersionUseCase implements SaveVersion {
         private readonly artifactsStorage: FileArtifactsStorage
     ) {}
 
-    async execute(versionDTO: VersionDTO): Promise<void> {
+    async execute(version: Version): Promise<void> {
         
         try {
 
-            const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = versionDTO
+            const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = version
             const projectHistory: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
 
             if (!projectHistory) {

@@ -3,8 +3,8 @@ import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
 import { GetLatestVersion } from "@domain/use-cases/get-latest-version"
-import { VersionDTO } from "@application/dto/version"
 import { ProjectHistoryNotFoundError } from "@domain/errors/project-history-not-found-error"
+import { Version } from "@domain/value-objects/version"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {
 
@@ -13,7 +13,7 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
         private readonly artifactsStorage: FileArtifactsStorage
     ){}
     
-    async execute(projectHistoryId: string): Promise<VersionDTO> {
+    async execute(projectHistoryId: string): Promise<Version> {
         
         try {
             const history: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
@@ -32,7 +32,7 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
                 this.artifactsStorage.download(versionSnapshot.sourceCodeArchivePath)
             ])
 
-            const version: VersionDTO = {
+            const version: Version = {
                 projectHistoryId: projectHistoryId, 
                 buildArtifacts: buildArtifacts,
                 sourceCodeArtifacts: sourceCodeArtifacts
