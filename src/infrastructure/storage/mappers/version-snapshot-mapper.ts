@@ -2,22 +2,32 @@ import { VersionSnapshot } from "@domain/entities/version-snapshot"
 
 export class VersionSnapshotMapper {
 
-    /** Converts a VersionSnapshot to a raw DTO */
+    /**
+     * Converts a VersionSnapshot domain entity to a storage record.
+     * 
+     * @param snapshot - The VersionSnapshot domain entity to convert
+     * @returns A VersionSnapshotRecord suitable for storage
+     */
 	static toRecord(snapshot: VersionSnapshot): VersionSnapshotRecord {
 		return {
                   id: snapshot.id,
-                  buildPath: snapshot.buildPath,
-				  sourceCodePath: snapshot.sourceCodePath,
+                  buildArchivePath: snapshot.buildArchivePath,
+				  sourceCodeArchivePath: snapshot.sourceCodeArchivePath,
                   createdAt: snapshot.createdAt
 		}
 	}
 
-	/** Converts a raw DTO back to a VersionSnapshot */
+	/**
+     * Converts a storage record back to a VersionSnapshot domain entity.
+     * 
+     * @param record - The VersionSnapshotRecord from storage
+     * @returns A rehydrated VersionSnapshot domain entity
+     */
 	static toDomain(record: VersionSnapshotRecord): VersionSnapshot {
 		return VersionSnapshot.rehydrate({
                   id: record.id,
-                  buildPath: record.buildPath,
-				  sourceCodePath: record.sourceCodePath,
+                  buildArchivePath: record.buildArchivePath,
+				  sourceCodeArchivePath: record.sourceCodeArchivePath,
                   createdAt: record.createdAt
 		})
 	}

@@ -1,6 +1,6 @@
 interface VersionSnapshotRecord {
     id: string
-    buildPath: string
-    sourceCodePath: string
+    buildArchivePath: string
+    sourceCodeArchivePath: string
     createdAt: string
 }

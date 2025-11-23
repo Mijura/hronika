@@ -8,6 +8,12 @@ export class InitializeProjectHistoryUseCase implements InitializeProjectHistory
         private readonly historyRepo: ProjectHistoryRepository
     ) {}
 
+    /**
+     * Initializes a new project history and saves it to the repository.
+     * 
+     * @returns A promise that resolves to the unique identifier of the newly created project history
+     * @throws {Error} If there's an error during the initialization process
+     */
     async execute(): Promise<string> {
 
         console.log(`Project history initialization in progress`)

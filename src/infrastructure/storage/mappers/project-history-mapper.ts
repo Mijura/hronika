@@ -4,6 +4,12 @@ import { VersionSnapshotMapper } from "./version-snapshot-mapper"
 
 export class ProjectHistoryMapper {
 
+    /**
+     * Converts a ProjectHistory domain entity to a storage record.
+     * 
+     * @param history - The ProjectHistory domain entity to convert
+     * @returns A ProjectHistoryRecord suitable for storage
+     */
     static toRecord(history: ProjectHistory): ProjectHistoryRecord {
         return {
             id: history.id,
@@ -12,6 +18,12 @@ export class ProjectHistoryMapper {
         }
     }
 
+    /**
+     * Converts a storage record back to a ProjectHistory domain entity.
+     * 
+     * @param record - The ProjectHistoryRecord from storage
+     * @returns A rehydrated ProjectHistory domain entity
+     */
     static toDomain(record: ProjectHistoryRecord): ProjectHistory {
         return  ProjectHistory.rehydrate(record)
     }

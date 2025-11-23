@@ -10,6 +10,7 @@
         "@jigjoy-io/serverless-core": "^0.0.3"
     },
     "devDependencies": {
+        "@rstest/core": "^0.6.6",
         "@types/aws-lambda": "^8.10.140",
         "@types/node": "^20.14.9",
         "@types/uuid": "^10.0.0",
@@ -22,7 +23,7 @@
         "deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
         "serve": "sam local start-api --profile Development --port 8001 --region eu-west-1 --env-vars env.json",
         "start": "sam local start-api --profile Development --port 8001 --region eu-west-1 --env-vars env.json",
-        "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+        "test": "rstest -c rstest.config.ts",
         "format": "prettier --write \"{src,packages}/**/*.{ts,tsx}\""
     },
     "jest": {
