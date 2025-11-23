@@ -3,7 +3,7 @@ import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
 import { GetLatestVersion } from "@domain/use-cases/get-latest-version"
-import { ProjectHistoryNotFoundError } from "@domain/errors/project-history-not-found-error"
+import { ProjectHistoryNotFound } from "@domain/errors/project-history-not-found"
 import { Version } from "@domain/value-objects/version"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {
@@ -19,7 +19,7 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
             const history: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
 
             if (!history) {
-                throw new ProjectHistoryNotFoundError(projectHistoryId)
+                throw new ProjectHistoryNotFound(projectHistoryId)
             }
 
             const versionSnapshot: VersionSnapshot | null = history.getLatestSnapshot()

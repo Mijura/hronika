@@ -1,4 +1,5 @@
 import { VersionSnapshot } from '@domain/entities/version-snapshot'
+import { VersionSnapshotNotFound } from '@domain/errors/version-snapshot-not-found'
 import { v4 as uuidv4 } from 'uuid'
 
 export class ProjectHistory {
@@ -21,7 +22,7 @@ export class ProjectHistory {
 
     setLatest(snapshotId: string) {
         const exists = this.snapshots.some(s => s.id === snapshotId)
-        if (!exists) throw new Error("Snapshot not found in the project history")
+        if (!exists) throw new VersionSnapshotNotFound(snapshotId)
         this.latestSnapshotId = snapshotId
     }
 

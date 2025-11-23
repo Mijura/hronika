@@ -1,6 +1,6 @@
 import { ProjectHistory } from "@domain/entities/project-history"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
-import { ProjectHistoryNotFoundError } from "@domain/errors/project-history-not-found-error"
+import { ProjectHistoryNotFound } from "@domain/errors/project-history-not-found"
 import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
 import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
 import { SaveVersion } from "@domain/use-cases/save-version"
@@ -21,7 +21,7 @@ export class SaveVersionUseCase implements SaveVersion {
             const projectHistory: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
 
             if (!projectHistory) {
-                throw new ProjectHistoryNotFoundError(projectHistoryId)
+                throw new ProjectHistoryNotFound(projectHistoryId)
             }
 
             // create a snapshot form file artifacts

@@ -14,6 +14,8 @@ export function errorHandler(error: Error | unknown) {
 			case "ProjectHistoryNotFoundError":
 				response = Responses._404({ errorMessage: error.message })
 				break
+			case "VersionSnapshotNotFoundError":
+				response = Responses._404({ errorMessage: error.message })
 			default:
 				response = Responses._500({ errorMessage: "Something went wrong" })
 				break
