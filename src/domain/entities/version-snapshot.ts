@@ -4,8 +4,8 @@ export class VersionSnapshot {
 
     constructor(
         public readonly id: string,
-        public readonly buildPath: string,
-        public readonly sourceCodePath: string,
+        public readonly buildArchivePath: string,
+        public readonly sourceCodeArchivePath: string,
         public readonly createdAt: string = new Date().toISOString()
     ) {}
 
