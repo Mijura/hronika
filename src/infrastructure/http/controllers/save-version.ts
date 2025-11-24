@@ -1,10 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { saveVersionUseCase } from "@infrastructure/dependencies"
-import { VersionDTO, schema } from "@infrastructure/http/dto/version"
+import { saveVersionUseCase } from "@infra/dependencies"
+import { VersionDTO, schema } from "@infra/http/dto/version"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
-import { errorHandler } from "@infrastructure/http/error-handler"
-import { Version } from "@application/value-objects/version"
-import { SaveVersion } from "@application/ports/inbound/save-version"
+import { errorHandler } from "@infra/http/error-handler"
+import { Version } from "@app/value-objects/version"
+import { SaveVersion } from "@app/ports/inbound/save-version"
 
 export function createSaveVersionHandler(useCase: SaveVersion) {
 

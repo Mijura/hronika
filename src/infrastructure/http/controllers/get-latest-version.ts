@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
-import { getLatestVersionUseCase } from "@infrastructure/dependencies"
-import { errorHandler } from "@infrastructure/http/error-handler"
-import { GetLatestVersion } from "@application/ports/inbound/get-latest-version"
+import { getLatestVersionUseCase } from "@infra/dependencies"
+import { errorHandler } from "@infra/http/error-handler"
+import { GetLatestVersion } from "@app/ports/inbound/get-latest-version"
     
 export function createGetLatestVersionHandler(useCase: GetLatestVersion) {
     

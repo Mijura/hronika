@@ -1,8 +1,8 @@
 import { APIGatewayProxyResult } from "aws-lambda"
 import { Responses } from "@jigjoy-io/serverless-core"
-import { initializeProjectHistoryUseCase } from "@infrastructure/dependencies"
-import { errorHandler } from "@infrastructure/http/error-handler"
-import { InitializeProjectHistory } from "@application/ports/inbound/initialize-project-history"
+import { initializeProjectHistoryUseCase } from "@infra/dependencies"
+import { errorHandler } from "@infra/http/error-handler"
+import { InitializeProjectHistory } from "@app/ports/inbound/initialize-project-history"
 
 export function createInitializeProjectHistoryHandler(useCase: InitializeProjectHistory) {
 

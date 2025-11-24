@@ -1,4 +1,4 @@
-import { FileArtifacts } from "./file-artifacts"
+import { FileArtifacts } from "@app/value-objects/file-artifacts"
 
 export class Version {
 

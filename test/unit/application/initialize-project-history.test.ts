@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
-import { InitializeProjectHistoryUseCase } from "@application/use-cases/initialize-project-history"
-import { InMemoryProjectHistoryRepository } from "@application/adapters/outbound/in-memory-project-history-repo"
-import { ProjectHistoryRepository } from "@application/ports/outbound/project-history-repository"
+import { InitializeProjectHistoryUseCase } from "@app/use-cases/initialize-project-history"
+import { InMemoryProjectHistoryRepository } from "@app/adapters/outbound/in-memory-project-history-repo"
+import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
 import { ProjectHistory } from "@domain/entities/project-history"
 
 describe('Initialize Project History', () => {

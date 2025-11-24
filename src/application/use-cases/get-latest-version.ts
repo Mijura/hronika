@@ -1,10 +1,10 @@
 import { ProjectHistory } from "@domain/entities/project-history"
-import { ProjectHistoryRepository } from "@application/ports/outbound/project-history-repository"
+import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
-import { GetLatestVersion } from "@application/ports/inbound/get-latest-version"
-import { ProjectHistoryNotFound } from "@application/errors/project-history-not-found"
-import { Version } from "@application/value-objects/version"
-import { VersionStorage } from "@application/ports/outbound/version-storage"
+import { GetLatestVersion } from "@app/ports/inbound/get-latest-version"
+import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
+import { Version } from "@app/value-objects/version"
+import { VersionStorage } from "@app/ports/outbound/version-storage"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {
 

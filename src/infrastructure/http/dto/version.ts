@@ -1,4 +1,4 @@
-import { FileArtifacts } from "@application/value-objects/file-artifacts"
+import { FileArtifacts } from "@app/value-objects/file-artifacts"
 
 export const schema = {
 	type: "object",

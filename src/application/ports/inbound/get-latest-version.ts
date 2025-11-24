@@ -1,4 +1,4 @@
-import { Version } from "@application/value-objects/version"
+import { Version } from "@app/value-objects/version"
 
 export interface GetLatestVersion {
     /**

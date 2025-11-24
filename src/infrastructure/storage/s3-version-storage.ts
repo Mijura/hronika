@@ -1,6 +1,6 @@
-import { VersionStorage } from "@application/ports/outbound/version-storage"
+import { VersionStorage } from "@app/ports/outbound/version-storage"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
-import { Version } from "@application/value-objects/version"
+import { Version } from "@app/value-objects/version"
 import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
 
 export class S3VersionStorage implements VersionStorage {
