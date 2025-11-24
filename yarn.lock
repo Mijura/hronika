@@ -841,10 +841,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.25.12.tgz#9bdad8176be7811ad148d1f8772359041f46c6c5"
   integrity sha512-alJC0uCZpTFrSL0CCDjcgleBXPnCrEAhTBILpeAp7M/OFgoqtAetfBzX0xM00MUsVVPpVjlPuMbREqnZCXaTnA==
 
-"@jigjoy-io/file-artifacts@^0.0.3":
-  version "0.0.3"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-io/file-artifacts/0.0.3/01e249a86ac87c60c15973b640e1aa84a543c41e#01e249a86ac87c60c15973b640e1aa84a543c41e"
-  integrity sha512-JvDft85y5ph+fQCFMNKQiFm+2FV+zk0dCiXmOKSjh5TdPniT0ItLcEJuMeNOaj/140eRKvwpt2u/+xVhs9/FGA==
+"@jigjoy-io/file-artifacts@^0.0.5":
+  version "0.0.5"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-io/file-artifacts/0.0.5/b23330dce31ee68b4a686db60edb31eda2cfd93b#b23330dce31ee68b4a686db60edb31eda2cfd93b"
+  integrity sha512-pPIuIpmZ2AZAy4BCikPw1BniiuaGF1+5jjOv/UaLm9uwF4cDU1mRPOf+3ooO7C1UeHGshxaouKTBgk2R5oQQ5g==
   dependencies:
     "@aws-sdk/client-s3" "^3.932.0"
     "@aws-sdk/lib-storage" "^3.878.0"
