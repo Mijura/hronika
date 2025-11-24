@@ -10,7 +10,7 @@ import { createInitializeProjectHistoryHandler } from "@infra/http/factories/cre
 import { InitializeProjectHistory } from "@app/ports/inbound/initialize-project-history"
 
 
-describe("initializeProjectHistoryHandler", () => {
+describe("Initialize Project History Handler", () => {
 
     let initializeProjectHistoryUseCase: InitializeProjectHistoryUseCase
     let repository: ProjectHistoryRepository

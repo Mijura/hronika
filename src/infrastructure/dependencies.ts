@@ -10,7 +10,7 @@ import { S3VersionStorage } from "@infra/storage/s3-version-storage"
 // Repositories
 export const projectHistoryRepository: ProjectHistoryRepository = new DynamoDBProjectHistoryRepository()
 
-// Artifact Storage
+// Version Storage
 const bucket = process.env.VERSION_CONTROL_BUCKET
 if (!bucket) 
     throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
