@@ -1,7 +1,7 @@
-import { VersionStorage } from "@application/ports/outbound/version-storage"
-import { Version } from "@application/value-objects/version"
+import { VersionStorage } from "@app/ports/outbound/version-storage"
+import { Version } from "@app/value-objects/version"
 import { VersionSnapshot } from "@domain/entities/version-snapshot"
-import { FileArtifacts } from "@application/value-objects/file-artifacts"
+import { FileArtifacts } from "@app/value-objects/file-artifacts"
 
 export class InMemoryVerionStorage implements VersionStorage {
     

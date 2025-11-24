@@ -1,9 +1,9 @@
 import { ProjectHistory } from "@domain/entities/project-history"
-import { ProjectHistoryNotFound } from "@application/errors/project-history-not-found"
-import { ProjectHistoryRepository } from "@application/ports/outbound/project-history-repository"
-import { SaveVersion } from "@application/ports/inbound/save-version"
-import { Version } from "@application/value-objects/version"
-import { VersionStorage } from "@application/ports/outbound/version-storage"
+import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
+import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
+import { SaveVersion } from "@app/ports/inbound/save-version"
+import { Version } from "@app/value-objects/version"
+import { VersionStorage } from "@app/ports/outbound/version-storage"
 
 export class SaveVersionUseCase implements SaveVersion {
 
