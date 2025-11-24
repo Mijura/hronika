@@ -18,7 +18,7 @@ Resources:
   InitializeProjectHistoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/initialize-project-history.initializeProjectHistoryHandler
+      Handler: src/infrastructure/http/controllers/initialize-project-history.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -47,7 +47,7 @@ Resources:
   SaveVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/save-version.saveVersionHandler
+      Handler: src/infrastructure/http/controllers/save-version.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -76,7 +76,7 @@ Resources:
   GetLatestVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/get-latest-version.getLatestVersionHandler
+      Handler: src/infrastructure/http/controllers/get-latest-version.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
