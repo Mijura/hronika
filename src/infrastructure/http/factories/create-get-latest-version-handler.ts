@@ -1,6 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
-import { getLatestVersionUseCase } from "@infra/dependencies"
 import { errorHandler } from "@infra/http/error-handler"
 import { GetLatestVersion } from "@app/ports/inbound/get-latest-version"
     
@@ -27,6 +26,3 @@ export function createGetLatestVersionHandler(useCase: GetLatestVersion) {
 		}
     }
 }
-
-// This is the handler used by AWS Lambda:
-export const handler = createGetLatestVersionHandler(getLatestVersionUseCase)

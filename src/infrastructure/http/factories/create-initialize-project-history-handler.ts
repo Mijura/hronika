@@ -1,6 +1,5 @@
 import { APIGatewayProxyResult } from "aws-lambda"
 import { Responses } from "@jigjoy-io/serverless-core"
-import { initializeProjectHistoryUseCase } from "@infra/dependencies"
 import { errorHandler } from "@infra/http/error-handler"
 import { InitializeProjectHistory } from "@app/ports/inbound/initialize-project-history"
 
@@ -21,6 +20,3 @@ export function createInitializeProjectHistoryHandler(useCase: InitializeProject
 		}
 	}
 }
-
-// This is the handler used by AWS Lambda:
-export const handler = createInitializeProjectHistoryHandler(initializeProjectHistoryUseCase)

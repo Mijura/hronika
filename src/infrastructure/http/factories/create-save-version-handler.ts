@@ -35,8 +35,5 @@ export function createSaveVersionHandler(useCase: SaveVersion) {
 		} catch (error) {
 			return errorHandler(error)
 		}
-	};
-  }
-  
-  // This is what Lambda/SAM uses
-  export const handler = createSaveVersionHandler(saveVersionUseCase)
+	}
+}
