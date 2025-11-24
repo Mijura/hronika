@@ -23,7 +23,7 @@ export class S3VersionStorage implements VersionStorage {
         const sourceCodePromise = this.s3Storage.writeArchive(sourceCodeFolderPath, sourceCodeArtifacts)
         const buildPromise = this.s3Storage.writeArchive(buildFolderPath, buildArtifacts)
         
-        const [buildPath, sourceCodePath] = await Promise.all([sourceCodePromise, buildPromise])
+        const [sourceCodePath, buildPath] = await Promise.all([sourceCodePromise, buildPromise])
         
         // add version snapshot
         const snapshot = VersionSnapshot.create(buildPath, sourceCodePath)
