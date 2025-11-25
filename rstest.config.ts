@@ -2,5 +2,8 @@ import { defineConfig } from '@rstest/core'
 
 export default defineConfig({
   testEnvironment: 'node',
-  root: "./"
+  root: "./",
+  coverage: {
+    enabled: true,
+  },
 })

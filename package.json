@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@rstest/core": "^0.6.6",
+        "@rstest/coverage-istanbul": "^0.0.5",
         "@types/aws-lambda": "^8.10.140",
         "@types/node": "^20.14.9",
         "@types/uuid": "^10.0.0",
@@ -24,6 +25,7 @@
         "serve": "sam local start-api --profile Development --port 8001 --region eu-west-1 --env-vars env.json",
         "start": "sam local start-api --profile Development --port 8001 --region eu-west-1 --env-vars env.json",
         "test": "rstest -c rstest.config.ts",
+        "coverage": "rstest --coverage",
         "format": "prettier --write \"{src,packages}/**/*.{ts,tsx}\""
     },
     "jest": {
