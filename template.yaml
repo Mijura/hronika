@@ -30,8 +30,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            RestApiId: !Ref VersioningApi
-            Path: /initilaize-project-history
+            Path: /initialize-project-history
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -60,7 +59,6 @@ Resources:
         Api:
           Type: Api
           Properties:
-            RestApiId: !Ref VersioningApi
             Path: /save-version/
             Method: POST
     Metadata:
@@ -90,7 +88,6 @@ Resources:
         Api:
           Type: Api
           Properties:
-            RestApiId: !Ref VersioningApi
             Path: /get-latest-version/{projectHistoryId}
             Method: GET
     Metadata:
@@ -117,6 +114,6 @@ Resources:
 Outputs:
   VersionControlSystemApi:
     Description: "API Gateway URL for project versioning"
-    Value: !Sub "https://${VersioningApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
     Export:
       Name: VersionControlSystemApi

@@ -1,6 +1,6 @@
 {
     "name": "@jigjoy-io/project-versioning-client",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "The SDK for working with project versions",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
@@ -27,5 +27,8 @@
         "@types/node": "^24.3.0",
         "tsup": "^8.0.2",
         "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "axios": "^1.13.2"
     }
 }

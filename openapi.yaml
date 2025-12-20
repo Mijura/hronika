@@ -9,7 +9,7 @@ servers:
     description: Local SAM API
 
 paths:
-  /initilaize-project-history:
+  /initialize-project-history:
     post:
       summary: Initialize project history
       operationId: InitializeProjectHistory

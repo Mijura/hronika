@@ -1,1 +1,0 @@
-export const PROJECT_VERSIONING_ENDPOINT = process.env.PROJECT_VERSIONING_ENDPOINT || "https://4tfv1gv2ch.execute-api.eu-west-1.amazonaws.com/Prod"

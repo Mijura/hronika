@@ -1,5 +1,4 @@
-
-import { PROJECT_VERSIONING_ENDPOINT } from "./config"
+import axios from "axios"
 
 type FileArtifacts = {
     [filePath: string]: string
@@ -15,24 +14,18 @@ export class ProjectVersioningClient {
 
     private readonly endpoint: string
     
-    constructor() {
-        this.endpoint = PROJECT_VERSIONING_ENDPOINT
+    constructor(endpoint: string) {
+        this.endpoint = endpoint
     }
 
     async initializeProjectHistory(): Promise<string> {
+
 		try {
-			const response = await fetch(`${this.endpoint}/initialize-project-history`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				}
-			})
-
-			if (!response.ok) {
-				throw new Error(`Failed to initialize project history: ${response.statusText}`)
-			}
-
-			return await response.json() as string
+			const res = await axios.post(
+				`${this.endpoint}/initialize-project-history`,
+				{}
+			  )
+			return res.data
 		} catch (error) {
 			console.error("Error initializing project history:", error)
 			throw error
@@ -41,17 +34,15 @@ export class ProjectVersioningClient {
 
     async saveVersion(version: VersionDTO): Promise<void> {
 		try {
-			const response = await fetch(`${this.endpoint}/save-version`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-                body: JSON.stringify(version)
-			})
 
-			if (!response.ok) {
-				throw new Error(`Failed to save verion: ${response.statusText}`)
-			}
+
+			const payload = JSON.parse(JSON.stringify(version));
+
+			await axios.post(
+				`${this.endpoint}/save-version`,
+				payload
+			)
+
 		} catch (error) {
 			console.error("Error saving version:", error)
 			throw error
@@ -59,23 +50,24 @@ export class ProjectVersioningClient {
 	}
 
     async getLatestVersion(projectHistoryId: string): Promise<VersionDTO> {
-
+		
 		try {
-			const response = await fetch(`${this.endpoint}/get-latest-version/${projectHistoryId}`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-
-			if (!response.ok) {
-				throw new Error(`Failed to fetch latest version: ${response.statusText}`)
-			}
-
-			return await response.json() as VersionDTO
-		} catch (error) {
-			console.error("Error fetching latest version:", error)
-			throw error
+		  const res = await axios.get<VersionDTO>(
+			`${this.endpoint}/get-latest-version/${projectHistoryId}`
+		  )
+	  
+		  return res.data
+		} catch (error: any) {
+		  console.error("Error fetching latest version:", error)
+	  
+		  // Optional: preserve meaningful HTTP error info
+		  if (axios.isAxiosError(error)) {
+			throw new Error(
+			  	`Failed to fetch latest version: ${error.response?.status} ${error.response?.statusText}`
+			)
+		  }
+	  
+		  throw error
 		}
-	}
+	  }
 }
