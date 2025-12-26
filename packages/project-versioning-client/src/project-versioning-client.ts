@@ -36,7 +36,7 @@ export class ProjectVersioningClient {
 		try {
 
 
-			const payload = JSON.parse(JSON.stringify(version));
+			const payload = JSON.parse(JSON.stringify(version))
 
 			await axios.post(
 				`${this.endpoint}/save-version`,
