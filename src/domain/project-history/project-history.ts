@@ -34,7 +34,10 @@ export class ProjectHistory {
      */
     setLatest(snapshotId: string) {
         const exists = this.snapshots.some(s => s.id === snapshotId)
-        if (!exists) throw new VersionSnapshotNotFound(snapshotId)
+
+        if (!exists) 
+            throw new VersionSnapshotNotFound(snapshotId)
+        
         this.latestSnapshotId = snapshotId
     }
 
