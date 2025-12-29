@@ -1,5 +1,5 @@
 import { VersionSnapshot } from '@domain/project-history/version/version-snapshot'
-import { VersionSnapshotNotFound } from '@domain/project-history/version/errors/version-snapshot-not-found'
+import { VersionSnapshotNotFound } from '@domain/project-history/errors/version-snapshot-not-found'
 import { v4 as uuidv4 } from 'uuid'
 
 export class ProjectHistory {
