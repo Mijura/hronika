@@ -1,6 +1,6 @@
 import { ProjectHistory } from "@domain/project-history/project-history"
-import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
-import { InitializeProjectHistory } from "@app/ports/inbound/initialize-project-history"
+import { ProjectHistoryRepository } from "@app/ports/storage/project-history-repository"
+import { InitializeProjectHistory } from "@app/ports/use-cases/initialize-project-history"
 
 export class InitializeProjectHistoryUseCase implements InitializeProjectHistory {
 

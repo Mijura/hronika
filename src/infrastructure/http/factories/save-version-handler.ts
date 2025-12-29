@@ -4,7 +4,7 @@ import { VersionDTO, schema } from "@infra/http/dto/version"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { Version } from "@app/value-objects/version"
-import { SaveVersion } from "@app/ports/inbound/save-version"
+import { SaveVersion } from "@app/ports/use-cases/save-version"
 
 export function createSaveVersionHandler(useCase: SaveVersion) {
 

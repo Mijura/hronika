@@ -5,9 +5,9 @@ import { describe, it, expect, beforeEach } from "@rstest/core"
 
 import { InMemoryProjectHistoryRepository } from "@app/adapters/outbound/in-memory-project-history-repo"
 import { InitializeProjectHistoryUseCase } from "@app/use-cases/initialize-project-history"
-import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
+import { ProjectHistoryRepository } from "@app/ports/storage/project-history-repository"
 import { createInitializeProjectHistoryHandler } from "@infra/http/factories/initialize-project-history-handler"
-import { InitializeProjectHistory } from "@app/ports/inbound/initialize-project-history"
+import { InitializeProjectHistory } from "@app/ports/use-cases/initialize-project-history"
 
 
 describe("Initialize Project History Handler", () => {

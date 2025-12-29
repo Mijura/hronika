@@ -1,4 +1,4 @@
-import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
+import { ProjectHistoryRepository } from "@app/ports/storage/project-history-repository"
 import { ProjectHistory } from "@domain/project-history/project-history"
 
 export class InMemoryProjectHistoryRepository implements ProjectHistoryRepository {
