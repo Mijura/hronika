@@ -3,7 +3,7 @@ import { Version } from "@app/value-objects/version"
 import { VersionSnapshot } from "@domain/project-history/version-snapshot"
 import { FileArtifacts } from "@app/value-objects/file-artifacts"
 
-export class InMemoryVerionStorage implements VersionStorage {
+export class InMemoryVersionStorage implements VersionStorage {
     
     private storage: Map<string, FileArtifacts> = new Map()
 
