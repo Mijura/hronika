@@ -1,6 +1,6 @@
 
 import { InitializeProjectHistoryUseCase } from "@app/use-cases/initialize-project-history"
-import { ProjectHistoryRepository } from "@app/ports/storage/project-history-repository"
+import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { DynamoDBProjectHistoryRepository } from "@infra/storage/project-history-repository"
 import { SaveVersionUseCase } from "@app/use-cases/save-version"
 import { GetLatestVersionUseCase } from "@app/use-cases/get-latest-version"

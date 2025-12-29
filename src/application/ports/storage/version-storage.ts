@@ -1,5 +1,5 @@
-import { VersionSnapshot } from "@domain/project-history/version-snapshot"
-import { Version } from "@app/value-objects/version"
+import { VersionSnapshot } from "@domain/project-history/version/version-snapshot"
+import { Version } from "@domain/project-history/version/version"
 
 export interface VersionStorage {
     save(version: Version): Promise<VersionSnapshot>

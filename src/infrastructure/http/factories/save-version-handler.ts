@@ -3,7 +3,7 @@ import { saveVersionUseCase } from "@infra/dependencies"
 import { VersionDTO, schema } from "@infra/http/dto/version"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
-import { Version } from "@app/value-objects/version"
+import { Version } from "@domain/project-history/version/version"
 import { SaveVersion } from "@app/ports/use-cases/save-version"
 
 export function createSaveVersionHandler(useCase: SaveVersion) {
@@ -26,7 +26,11 @@ export function createSaveVersionHandler(useCase: SaveVersion) {
 			schemaValidator(schema, versionDTO)
 	
 			const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = versionDTO
-			const version = new Version(projectHistoryId, buildArtifacts, sourceCodeArtifacts)
+			const version : Version = {
+				projectHistoryId,
+				buildArtifacts,
+				sourceCodeArtifacts
+			}
 	
 			await useCase.execute(version)
 	

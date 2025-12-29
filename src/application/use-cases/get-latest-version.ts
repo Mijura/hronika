@@ -1,9 +1,9 @@
 import { ProjectHistory } from "@domain/project-history/project-history"
-import { ProjectHistoryRepository } from "@app/ports/storage/project-history-repository"
-import { VersionSnapshot } from "@domain/project-history/version-snapshot"
+import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
+import { VersionSnapshot } from "@domain/project-history/version/version-snapshot"
 import { GetLatestVersion } from "@app/ports/use-cases/get-latest-version"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
-import { Version } from "@app/value-objects/version"
+import { Version } from "@domain/project-history/version/version"
 import { VersionStorage } from "@app/ports/storage/version-storage"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {

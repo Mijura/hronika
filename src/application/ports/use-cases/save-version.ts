@@ -1,4 +1,4 @@
-import { Version } from "@app/value-objects/version"
+import { Version } from "@domain/project-history/version/version"
 
 export interface SaveVersion {
     /**

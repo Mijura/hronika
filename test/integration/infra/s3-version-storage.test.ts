@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
 import { S3VersionStorage } from "@infra/storage/s3-version-storage"
-import { Version } from "@app/value-objects/version"
-import { FileArtifacts } from "@app/value-objects/file-artifacts"
+import { Version } from "@domain/project-history/version/version"
+import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
 
 describe('S3 Version Storage', () => {
 
@@ -22,7 +22,12 @@ describe('S3 Version Storage', () => {
     })
 
     it('should persist build and source artifacts and return a snapshot with generated paths', async () => {
-        const version = new Version(projectHistoryId, buildArtifacts, sourceCodeArtifacts)
+        
+        const version : Version = {
+            projectHistoryId, 
+            buildArtifacts, 
+            sourceCodeArtifacts
+        }
 
         const snapshot = await versionStorage.save(version)
 
@@ -35,7 +40,12 @@ describe('S3 Version Storage', () => {
     })
 
     it('should restore a previously saved version from the bucket', async () => {
-        const version = new Version(projectHistoryId, buildArtifacts, sourceCodeArtifacts)
+
+        const version : Version = {
+            projectHistoryId, 
+            buildArtifacts, 
+            sourceCodeArtifacts
+        }
 
         const snapshot = await versionStorage.save(version)
         const restoredVersion = await versionStorage.restore(projectHistoryId, snapshot)

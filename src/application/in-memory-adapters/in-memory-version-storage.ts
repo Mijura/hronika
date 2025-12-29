@@ -1,7 +1,7 @@
 import { VersionStorage } from "@app/ports/storage/version-storage"
-import { Version } from "@app/value-objects/version"
-import { VersionSnapshot } from "@domain/project-history/version-snapshot"
-import { FileArtifacts } from "@app/value-objects/file-artifacts"
+import { Version } from "@domain/project-history/version/version"
+import { VersionSnapshot } from "@domain/project-history/version/version-snapshot"
+import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
 
 export class InMemoryVersionStorage implements VersionStorage {
     
@@ -64,11 +64,11 @@ export class InMemoryVersionStorage implements VersionStorage {
         }
         
         // Reconstruct and return the version
-        const version = new Version(
+        const version : Version = {
             projectHistoryId,
-            buildArtifactsCopy,
-            sourceCodeArtifactsCopy
-        )
+            buildArtifacts: buildArtifactsCopy,
+            sourceCodeArtifacts: sourceCodeArtifactsCopy
+        }
         
         return version
     }
