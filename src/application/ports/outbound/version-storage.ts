@@ -1,4 +1,4 @@
-import { VersionSnapshot } from "@domain/entities/version-snapshot"
+import { VersionSnapshot } from "@domain/project-history/version-snapshot"
 import { Version } from "@app/value-objects/version"
 
 export interface VersionStorage {

@@ -1,6 +1,6 @@
-import { ProjectHistory } from "@domain/entities/project-history"
+import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
-import { VersionSnapshot } from "@domain/entities/version-snapshot"
+import { VersionSnapshot } from "@domain/project-history/version-snapshot"
 import { GetLatestVersion } from "@app/ports/inbound/get-latest-version"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 import { Version } from "@app/value-objects/version"

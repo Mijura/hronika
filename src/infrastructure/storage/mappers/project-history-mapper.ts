@@ -1,4 +1,4 @@
-import { ProjectHistory } from "@domain/entities/project-history"
+import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryRecord } from "@infra/storage/records/project-history"
 import { VersionSnapshotMapper } from "@infra/storage/mappers/version-snapshot-mapper"
 

@@ -1,4 +1,4 @@
-import { VersionSnapshot } from "@domain/entities/version-snapshot"
+import { VersionSnapshot } from "@domain/project-history/version-snapshot"
 
 export class VersionSnapshotMapper {
 

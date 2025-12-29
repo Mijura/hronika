@@ -1,4 +1,4 @@
-import { ProjectHistory } from "@domain/entities/project-history"
+import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 import { ProjectHistoryRepository } from "@app/ports/outbound/project-history-repository"
 import { SaveVersion } from "@app/ports/inbound/save-version"

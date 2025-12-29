@@ -1,6 +1,6 @@
 import { describe, it, expect } from "@rstest/core"
-import { ProjectHistory } from '@domain/entities/project-history'
-import { VersionSnapshot } from '@domain/entities/version-snapshot'
+import { ProjectHistory } from '@domain/project-history/project-history'
+import { VersionSnapshot } from '@domain/project-history/version-snapshot'
 
 describe("Project History", () => {
 
