@@ -1,5 +1,3 @@
-// test/unit/infra/http/initialize-project-history-handler.test.ts
-
 import { APIGatewayProxyEvent } from "aws-lambda"
 import { describe, it, expect, beforeEach } from "@rstest/core"
 

@@ -1,12 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { saveVersionUseCase } from "@infra/dependencies"
-import { VersionDTO, schema } from "@infra/http/dto/version"
+import { schema } from "@infra/http/schemas/version"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { Version } from "@domain/project-history/version/version"
 import { SaveVersion } from "@app/ports/use-cases/save-version"
+import { VersionDTO } from "@app/dto/version"
 
-export function createSaveVersionHandler(useCase: SaveVersion) {
+export function createSaveVersionHandler(saveVersionUseCase: SaveVersion) {
 
 	/**
 	 * Lambda handler for saving a new version snapshot to a project history.
@@ -22,19 +22,19 @@ export function createSaveVersionHandler(useCase: SaveVersion) {
 				throw new ValidationError("No page body")
 			}
 	
-			const versionDTO: VersionDTO = JSON.parse(body)
-			schemaValidator(schema, versionDTO)
-	
-			const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = versionDTO
+			const parsedBody = JSON.parse(body)
+			schemaValidator(schema, parsedBody)
+
+			const versionDTO : VersionDTO = parsedBody as VersionDTO
 			const version : Version = {
-				projectHistoryId,
-				buildArtifacts,
-				sourceCodeArtifacts
+				projectHistoryId: versionDTO.projectHistoryId,
+				buildArtifacts: versionDTO.buildArtifacts,
+				sourceCodeArtifacts: versionDTO.sourceCodeArtifacts
 			}
 	
-			await useCase.execute(version)
+			const savedVersionDTO : VersionDTO = await saveVersionUseCase.execute(version)
 	
-			return Responses._201()
+			return Responses._201(savedVersionDTO)
 			
 		} catch (error) {
 			return errorHandler(error)

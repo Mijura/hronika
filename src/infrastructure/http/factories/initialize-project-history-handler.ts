@@ -3,7 +3,7 @@ import { Responses } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { InitializeProjectHistory } from "@app/ports/use-cases/initialize-project-history"
 
-export function createInitializeProjectHistoryHandler(useCase: InitializeProjectHistory) {
+export function createInitializeProjectHistoryHandler(initializeProjectHistoryUseCase: InitializeProjectHistory) {
 
 	/**
 	 * Lambda handler for initializing a new project history.
@@ -13,7 +13,7 @@ export function createInitializeProjectHistoryHandler(useCase: InitializeProject
 	return async function initializeProjectHistoryHandler(): Promise<APIGatewayProxyResult> {
 
 		try {
-			const historyId: string = await useCase.execute()
+			const historyId: string = await initializeProjectHistoryUseCase.execute()
 			return Responses._201(historyId)
 		} catch (error) {
 			return errorHandler(error)

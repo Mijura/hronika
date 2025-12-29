@@ -1,4 +1,3 @@
-import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
 
 export const schema = {
 	type: "object",
@@ -16,12 +15,6 @@ export const schema = {
 			type: "object",
 			additionalProperties: { type: "string" },
 			description: "Source code files"
-		},
-	},
-}
-
-export interface VersionDTO {
-    projectHistoryId: string
-    buildArtifacts: FileArtifacts,
-	sourceCodeArtifacts: FileArtifacts
+		}
+	}
 }
