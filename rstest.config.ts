@@ -1,9 +1,9 @@
-import { defineConfig } from '@rstest/core'
+import { defineConfig } from "@rstest/core"
 
 export default defineConfig({
-  testEnvironment: 'node',
-  root: "./",
-  coverage: {
-    enabled: true,
-  },
+	testEnvironment: "node",
+	root: "./",
+	coverage: {
+		enabled: true,
+	},
 })

@@ -1,3 +1,3 @@
 export type FileArtifactsDTO = {
-    [filePath: string]: string
+	[filePath: string]: string
 }

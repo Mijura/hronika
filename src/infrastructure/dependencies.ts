@@ -1,4 +1,3 @@
-
 import { InitializeProjectHistoryUseCase } from "@app/use-cases/initialize-project-history"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { DynamoDBProjectHistoryRepository } from "@infra/storage/project-history-repository"
@@ -12,8 +11,7 @@ export const projectHistoryRepository: ProjectHistoryRepository = new DynamoDBPr
 
 // Version Storage
 const bucket = process.env.VERSION_CONTROL_BUCKET
-if (!bucket) 
-    throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
+if (!bucket) throw new Error("Missing VERSION_CONTROL_BUCKET env variable")
 
 export const versionStorage: VersionStorage = new S3VersionStorage(bucket)
 

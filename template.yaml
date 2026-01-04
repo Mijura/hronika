@@ -1,119 +1,118 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  project-versioning
+    project-versioning
 
 Globals:
-  Api:
-    Cors:
-      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
-      AllowHeaders: "'content-type'"
-      AllowOrigin: "'*'"
+    Api:
+        Cors:
+            AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+            AllowHeaders: "'content-type'"
+            AllowOrigin: "'*'"
 
 Resources:
+    InitializeProjectHistoryFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/initialize-project-history.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Initialize a project history
+            Environment:
+                Variables:
+                    VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+                    PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /initialize-project-history
+                        Method: POST
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/initialize-project-history.ts
 
-  InitializeProjectHistoryFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/initialize-project-history.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Initialize a project history
-      Environment:
-        Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
-          PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /initialize-project-history
-            Method: POST
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/initialize-project-history.ts
+    SaveVersionFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/save-version.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Save project version
+            Environment:
+                Variables:
+                    VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+                    PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /save-version/
+                        Method: POST
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/save-version.ts
 
-  SaveVersionFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/save-version.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Save project version
-      Environment:
-        Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
-          PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /save-version/
-            Method: POST
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/save-version.ts
+    GetLatestVersionFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/get-latest-version.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Fetch latest project version
+            Environment:
+                Variables:
+                    VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+                    PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /get-latest-version/{projectHistoryId}
+                        Method: GET
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/get-latest-version.ts
 
-  GetLatestVersionFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/get-latest-version.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Fetch latest project version
-      Environment:
-        Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
-          PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /get-latest-version/{projectHistoryId}
-            Method: GET
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/get-latest-version.ts
-
-  ProjectHistoryTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: ProjectHistory
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
+    ProjectHistoryTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+            TableName: ProjectHistory
+            BillingMode: PAY_PER_REQUEST
+            AttributeDefinitions:
+                - AttributeName: id
+                  AttributeType: S
+            KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
 
 Outputs:
-  VersionControlSystemApi:
-    Description: "API Gateway URL for project versioning"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-    Export:
-      Name: VersionControlSystemApi
+    VersionControlSystemApi:
+        Description: "API Gateway URL for project versioning"
+        Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+        Export:
+            Name: VersionControlSystemApi

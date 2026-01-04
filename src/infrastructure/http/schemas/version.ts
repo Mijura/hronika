@@ -1,4 +1,3 @@
-
 export const schema = {
 	type: "object",
 	required: ["projectHistoryId", "buildArtifacts", "sourceCodeArtifacts"],
@@ -9,12 +8,12 @@ export const schema = {
 		buildArtifacts: {
 			type: "object",
 			additionalProperties: { type: "string" },
-			description: "Pre-built source code files"
+			description: "Pre-built source code files",
 		},
 		sourceCodeArtifacts: {
 			type: "object",
 			additionalProperties: { type: "string" },
-			description: "Source code files"
-		}
-	}
+			description: "Source code files",
+		},
+	},
 }

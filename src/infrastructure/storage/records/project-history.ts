@@ -1,6 +1,5 @@
-
 export interface ProjectHistoryRecord {
-    id: string
-    snapshots: VersionSnapshotRecord[]
-    latestSnapshotId: string | null
+	id: string
+	snapshots: VersionSnapshotRecord[]
+	latestSnapshotId: string | null
 }
