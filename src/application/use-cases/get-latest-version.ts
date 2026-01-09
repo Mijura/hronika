@@ -5,8 +5,6 @@ import { GetLatestVersion } from "@app/ports/use-cases/get-latest-version"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 import { Version } from "@domain/project-history/version/version"
 import { VersionStorage } from "@app/ports/storage/version-storage"
-import { VersionDTO } from "@app/dto/version"
-import { VersionMapper } from "@app/mappers/version"
 
 export class GetLatestVersionUseCase implements GetLatestVersion {
 	constructor(
@@ -22,7 +20,7 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
 	 * @throws {ProjectHistoryNotFound} If the project history with the given ID does not exist
 	 * @throws {Error} If the project history is empty or if there's an error pulling artifacts
 	 */
-	async execute(projectHistoryId: string): Promise<VersionDTO> {
+	async execute(projectHistoryId: string): Promise<Version> {
 		try {
 			const history: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
 
@@ -37,7 +35,7 @@ export class GetLatestVersionUseCase implements GetLatestVersion {
 
 			const version: Version = await this.versionStorage.restore(projectHistoryId, snapshot)
 
-			return VersionMapper.toDTO(version)
+			return version
 		} catch (error) {
 			throw new Error(`Error pulling artifacts: ${error}`)
 		}

@@ -1,4 +1,4 @@
-import { VersionDTO } from "@app/dto/version"
+import { Version } from "@domain/project-history/version/version"
 
 export interface GetLatestVersion {
 	/**
@@ -7,5 +7,5 @@ export interface GetLatestVersion {
 	 * @param projectHistoryId - The unique identifier of the project history
 	 * @returns A promise that resolves to the latest version with build and source code artifacts
 	 */
-	execute(projectHistoryId: string): Promise<VersionDTO>
+	execute(projectHistoryId: string): Promise<Version>
 }

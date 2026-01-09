@@ -4,8 +4,7 @@ import { ProjectHistoryRepository } from "@app/ports/repositories/project-histor
 import { SaveVersion } from "@app/ports/use-cases/save-version"
 import { Version } from "@domain/project-history/version/version"
 import { VersionStorage } from "@app/ports/storage/version-storage"
-import { VersionDTO } from "@app/dto/version"
-import { VersionMapper } from "@app/mappers/version"
+import { VersionMapper } from "@infra/http/mappers/version"
 
 export class SaveVersionUseCase implements SaveVersion {
 	constructor(
@@ -21,7 +20,7 @@ export class SaveVersionUseCase implements SaveVersion {
 	 * @throws {ProjectHistoryNotFound} If the project history with the given ID does not exist
 	 * @throws {Error} If there's an error during the artifact upload or saving process
 	 */
-	async execute(version: Version): Promise<VersionDTO> {
+	async execute(version: Version): Promise<Version> {
 		try {
 			const projectHistoryId = version.projectHistoryId
 			const projectHistory: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
@@ -35,7 +34,7 @@ export class SaveVersionUseCase implements SaveVersion {
 			projectHistory.addSnapshot(snapshot)
 			await this.historyRepo.save(projectHistory)
 
-			return VersionMapper.toDTO(version)
+			return version
 		} catch (error) {
 			throw new Error(`Error during saving artifacts version: ${error}`)
 		}

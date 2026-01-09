@@ -4,7 +4,8 @@ import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverle
 import { errorHandler } from "@infra/http/error-handler"
 import { Version } from "@domain/project-history/version/version"
 import { SaveVersion } from "@app/ports/use-cases/save-version"
-import { VersionDTO } from "@app/dto/version"
+import { VersionDTO } from "@infra/http/dto/version"
+import { VersionMapper } from "@infra/http/mappers/version"
 
 export function createSaveVersionHandler(saveVersionUseCase: SaveVersion) {
 	/**
@@ -30,8 +31,8 @@ export function createSaveVersionHandler(saveVersionUseCase: SaveVersion) {
 				sourceCodeArtifacts: versionDTO.sourceCodeArtifacts,
 			}
 
-			const savedVersionDTO: VersionDTO = await saveVersionUseCase.execute(version)
-
+			const savedVersion: Version = await saveVersionUseCase.execute(version)
+			const savedVersionDTO: VersionDTO = VersionMapper.toDTO(savedVersion)
 			return Responses._201(savedVersionDTO)
 		} catch (error) {
 			return errorHandler(error)
