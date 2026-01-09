@@ -2,7 +2,9 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { GetLatestVersion } from "@app/ports/use-cases/get-latest-version"
-import { VersionDTO } from "@app/dto/version"
+import { Version } from "@domain/project-history/version/version"
+import { VersionMapper } from "../mappers/version"
+import { VersionDTO } from "../dto/version"
 
 export function createGetLatestVersionHandler(getLatestVersionUseCase: GetLatestVersion) {
 	/**
@@ -18,7 +20,8 @@ export function createGetLatestVersionHandler(getLatestVersionUseCase: GetLatest
 				throw new ValidationError("Missing required path parameter: projectHistoryId")
 			}
 
-			const versionDTO: VersionDTO = await getLatestVersionUseCase.execute(projectHistoryId)
+			const version: Version = await getLatestVersionUseCase.execute(projectHistoryId)
+			const versionDTO: VersionDTO = VersionMapper.toDTO(version)
 			return Responses._200(versionDTO)
 		} catch (error) {
 			return errorHandler(error)
