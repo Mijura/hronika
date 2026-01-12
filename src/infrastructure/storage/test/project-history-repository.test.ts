@@ -123,4 +123,21 @@ describe("DynamoDB Project History Repository", () => {
 		expect(snapshots[1].id).toEqual(snapshot2.id)
 		expect(snapshots[2].id).toEqual(snapshot3.id)
 	})
+
+	it("should throw an error when DynamoDB get operation fails", async () => {
+		// Temporarily set an empty table name to trigger a DynamoDB validation error
+		const originalTableName = process.env.PROJECT_HISTORY_TABLE
+		process.env.PROJECT_HISTORY_TABLE = ""
+
+		try {
+			await expect(repository.get("some-id")).rejects.toThrow("Failed to get project history")
+		} finally {
+			// Restore original table name
+			if (originalTableName) {
+				process.env.PROJECT_HISTORY_TABLE = originalTableName
+			} else {
+				delete process.env.PROJECT_HISTORY_TABLE
+			}
+		}
+	})
 })
