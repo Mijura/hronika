@@ -29,13 +29,13 @@ export class ProjectHistory {
 	 * @param snapshotId - The unique identifier of the snapshot to set as latest
 	 * @throws {VersionSnapshotNotFound} If the snapshot with the given ID does not exist
 	 */
-	setLatest(snapshotId: string) {
-		const exists = this.snapshots.some((s) => s.id === snapshotId)
+	// setLatest(snapshotId: string) {
+	// 	const exists = this.snapshots.some((s) => s.id === snapshotId)
 
-		if (!exists) throw new VersionSnapshotNotFound(snapshotId)
+	// 	if (!exists) throw new VersionSnapshotNotFound(snapshotId)
 
-		this.latestSnapshotId = snapshotId
-	}
+	// 	this.latestSnapshotId = snapshotId
+	// }
 
 	/**
 	 * Retrieves the latest version snapshot from the project history.
