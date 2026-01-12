@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda"
 import { describe, it, expect, beforeEach } from "@rstest/core"
 
-import { InMemoryProjectHistoryRepository } from "@app/in-memory-adapters/in-memory-project-history-repo"
+import { InMemoryProjectHistoryRepository } from "@app/test/mocks/in-memory-project-history-repo"
 import { InitializeProjectHistoryUseCase } from "@app/use-cases/initialize-project-history"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { createInitializeProjectHistoryHandler } from "@infra/http/factories/initialize-project-history-handler"
