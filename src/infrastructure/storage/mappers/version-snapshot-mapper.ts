@@ -15,19 +15,4 @@ export class VersionSnapshotMapper {
 			createdAt: snapshot.createdAt,
 		}
 	}
-
-	/**
-	 * Converts a storage record back to a VersionSnapshot domain entity.
-	 *
-	 * @param record - The VersionSnapshotRecord from storage
-	 * @returns A rehydrated VersionSnapshot domain entity
-	 */
-	static toDomain(record: VersionSnapshotRecord): VersionSnapshot {
-		return VersionSnapshot.rehydrate({
-			id: record.id,
-			buildArchivePath: record.buildArchivePath,
-			sourceCodeArchivePath: record.sourceCodeArchivePath,
-			createdAt: record.createdAt,
-		})
-	}
 }
