@@ -12,12 +12,6 @@ const client = new DynamoDBClient({
 const ddbDocClient = DynamoDBDocumentClient.from(client)
 
 export class DynamoDBProjectHistoryRepository implements ProjectHistoryRepository {
-	/**
-	 * Saves a project history entity to DynamoDB.
-	 *
-	 * @param projectHistory - The project history entity to save
-	 * @returns A promise that resolves to the saved project history
-	 */
 	async save(projectHistory: ProjectHistory): Promise<ProjectHistory> {
 		const tableName = process.env.PROJECT_HISTORY_TABLE
 		console.log(`Saving project history with id: ${projectHistory.id} to DynamoDB table ${tableName}`)
@@ -33,13 +27,6 @@ export class DynamoDBProjectHistoryRepository implements ProjectHistoryRepositor
 		return projectHistory
 	}
 
-	/**
-	 * Retrieves a project history by its unique identifier from DynamoDB.
-	 *
-	 * @param id - The unique identifier of the project history
-	 * @returns A promise that resolves to the project history if found, or null if not found
-	 * @throws {Error} If there's an error retrieving the project history from DynamoDB
-	 */
 	async get(id: string): Promise<ProjectHistory | null> {
 		const tableName = process.env.PROJECT_HISTORY_TABLE
 		console.log(`Getting project history with id: ${id} from DynamoDB table ${tableName}`)
