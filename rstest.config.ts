@@ -1,4 +1,5 @@
 import { defineConfig } from "@rstest/core"
+import testEnv from "./env.test.json"
 
 export default defineConfig({
 	testEnvironment: "node",
@@ -6,4 +7,5 @@ export default defineConfig({
 	coverage: {
 		enabled: true,
 	},
+	env: testEnv,
 })

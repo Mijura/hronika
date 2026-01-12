@@ -17,7 +17,11 @@ describe("S3 Version Storage", () => {
 	} as FileArtifacts
 
 	beforeEach(() => {
-		versionStorage = new S3VersionStorage("jigjoy-vcs")
+		const bucket = process.env.VERSION_CONTROL_BUCKET as string
+		if (!bucket) {
+			throw new Error("VERSION_CONTROL_BUCKET is not set")
+		}
+		versionStorage = new S3VersionStorage(bucket)
 	})
 
 	it("should persist build and source artifacts and return a snapshot with generated paths", async () => {
