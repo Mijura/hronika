@@ -7,4 +7,4 @@ coverage
 .yarnrc.yml
 
 env.json
-env.test.json
+.env.test
