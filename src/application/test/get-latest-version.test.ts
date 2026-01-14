@@ -5,7 +5,6 @@ import { InMemoryVersionStorage } from "@app/test/mocks/in-memory-version-storag
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { VersionStorage } from "@app/ports/storage/version-storage"
 import { ProjectHistory } from "@domain/project-history/project-history"
-import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 import { Version } from "@domain/project-history/version/version"
 import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
 
