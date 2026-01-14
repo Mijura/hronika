@@ -158,8 +158,6 @@ describe("Get Latest Version", () => {
 		const errorUseCase = new GetLatestVersionUseCase(errorThrowingRepository, versionStorage)
 
 		// Act & Assert
-		await expect(errorUseCase.execute("some-id")).rejects.toThrow(
-			`Error pulling artifacts: Error: ${errorMessage}`,
-		)
+		await expect(errorUseCase.execute("some-id")).rejects.toThrow(`Error pulling artifacts: Error: ${errorMessage}`)
 	})
 })

@@ -24,7 +24,8 @@ describe("Get Latest Version Handler", () => {
 			},
 			sourceCodeArtifacts: {
 				"src/index.ts": "export function main() {\n  console.log('Hello, World!');\n}",
-				"src/components/Button.tsx": "import React from 'react';\n\nexport const Button = () => <button>Click me</button>;",
+				"src/components/Button.tsx":
+					"import React from 'react';\n\nexport const Button = () => <button>Click me</button>;",
 				"package.json": '{\n  "name": "my-app",\n  "version": "1.0.0"\n}',
 			},
 		}

@@ -3,7 +3,6 @@ import { ProjectHistoryRecord } from "@infra/storage/records/project-history"
 import { VersionSnapshotMapper } from "@infra/storage/mappers/version-snapshot-mapper"
 
 export class ProjectHistoryMapper {
-
 	static toRecord(history: ProjectHistory): ProjectHistoryRecord {
 		return {
 			id: history.id,

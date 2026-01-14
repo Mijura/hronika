@@ -247,11 +247,11 @@ describe("Project History", () => {
 			expect(rehydrated.id).toBe(id)
 			expect(rehydrated.getSnapshots()).toHaveLength(3)
 			expect(rehydrated.getLatestSnapshotId()).toBe(snapshot3Data.id)
-			
+
 			const latestSnapshot = rehydrated.getLatestSnapshot()
 			expect(latestSnapshot).not.toBeNull()
 			expect(latestSnapshot!.id).toBe(snapshot3Data.id)
-			
+
 			const snapshots = rehydrated.getSnapshots()
 			expect(snapshots[0].id).toBe(snapshot1Data.id)
 			expect(snapshots[1].id).toBe(snapshot2Data.id)
@@ -292,7 +292,7 @@ describe("Project History", () => {
 			expect(rehydrated.id).toBe(id)
 			expect(rehydrated.getSnapshots()).toHaveLength(3)
 			expect(rehydrated.getLatestSnapshotId()).toBe(snapshot2Data.id)
-			
+
 			const latestSnapshot = rehydrated.getLatestSnapshot()
 			expect(latestSnapshot).not.toBeNull()
 			expect(latestSnapshot!.id).toBe(snapshot2Data.id)
