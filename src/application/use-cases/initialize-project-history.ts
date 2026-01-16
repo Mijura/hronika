@@ -1,8 +1,8 @@
 import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
-import { InitializeProjectHistory } from "@app/ports/use-cases/initialize-project-history"
+import { InitializeProjectHistoryUseCase } from "@app/ports/use-cases/initialize-project-history"
 
-export class InitializeProjectHistoryUseCase implements InitializeProjectHistory {
+export class InitializeProjectHistory implements InitializeProjectHistoryUseCase {
 	constructor(private readonly historyRepo: ProjectHistoryRepository) {}
 
 	/**

@@ -1,12 +1,11 @@
 import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
-import { SaveVersion } from "@app/ports/use-cases/save-version"
+import { SaveVersionUseCase } from "@app/ports/use-cases/save-version"
 import { Version } from "@domain/project-history/version/version"
 import { VersionStorage } from "@app/ports/storage/version-storage"
-import { VersionMapper } from "@infra/http/mappers/version"
 
-export class SaveVersionUseCase implements SaveVersion {
+export class SaveVersion implements SaveVersionUseCase {
 	constructor(
 		private readonly historyRepo: ProjectHistoryRepository,
 		private readonly versionStorage: VersionStorage,

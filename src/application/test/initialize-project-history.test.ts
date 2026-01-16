@@ -1,16 +1,16 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
-import { InitializeProjectHistoryUseCase } from "@app/use-cases/initialize-project-history"
+import { InitializeProjectHistory } from "@app/use-cases/initialize-project-history"
 import { InMemoryProjectHistoryRepository } from "@app/test/mocks/in-memory-project-history-repo"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { ProjectHistory } from "@domain/project-history/project-history"
 
 describe("Initialize Project History", () => {
-	let initializeProjectHistoryUseCase: InitializeProjectHistoryUseCase
+	let initializeProjectHistoryUseCase: InitializeProjectHistory
 	let repository: ProjectHistoryRepository
 
 	beforeEach(() => {
 		repository = new InMemoryProjectHistoryRepository()
-		initializeProjectHistoryUseCase = new InitializeProjectHistoryUseCase(repository)
+		initializeProjectHistoryUseCase = new InitializeProjectHistory(repository)
 	})
 
 	it("should successfully initialize a new project history and return its ID", async () => {
@@ -46,7 +46,7 @@ describe("Initialize Project History", () => {
 			},
 			get: async () => null,
 		}
-		const errorUseCase = new InitializeProjectHistoryUseCase(errorThrowingRepository)
+		const errorUseCase = new InitializeProjectHistory(errorThrowingRepository)
 
 		// Act & Assert
 		await expect(errorUseCase.execute()).rejects.toThrow(

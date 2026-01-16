@@ -1,6 +1,6 @@
 import { Version } from "@domain/project-history/version/version"
 
-export interface GetLatestVersion {
+export interface GetLatestVersionUseCase {
 	/**
 	 * Retrieves the latest version of a project.
 	 *

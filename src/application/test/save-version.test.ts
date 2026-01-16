@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
-import { SaveVersionUseCase } from "@app/use-cases/save-version"
+import { SaveVersion } from "@app/use-cases/save-version"
 import { InMemoryProjectHistoryRepository } from "@app/test/mocks/in-memory-project-history-repo"
 import { InMemoryVersionStorage } from "@app/test/mocks/in-memory-version-storage"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
@@ -9,14 +9,14 @@ import { Version } from "@domain/project-history/version/version"
 import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
 
 describe("Save Version", () => {
-	let saveVersionUseCase: SaveVersionUseCase
+	let saveVersionUseCase: SaveVersion
 	let repository: ProjectHistoryRepository
 	let versionStorage: VersionStorage
 
 	beforeEach(() => {
 		repository = new InMemoryProjectHistoryRepository()
 		versionStorage = new InMemoryVersionStorage()
-		saveVersionUseCase = new SaveVersionUseCase(repository, versionStorage)
+		saveVersionUseCase = new SaveVersion(repository, versionStorage)
 	})
 
 	it("should successfully save a version and add snapshot to project history", async () => {
@@ -88,7 +88,7 @@ describe("Save Version", () => {
 				throw new Error("Should not be called")
 			},
 		}
-		const errorUseCase = new SaveVersionUseCase(repository, errorThrowingStorage)
+		const errorUseCase = new SaveVersion(repository, errorThrowingStorage)
 
 		// Act & Assert
 		await expect(errorUseCase.execute(version)).rejects.toThrow(
@@ -120,7 +120,7 @@ describe("Save Version", () => {
 				return null
 			},
 		}
-		const errorUseCase = new SaveVersionUseCase(errorThrowingRepository, versionStorage)
+		const errorUseCase = new SaveVersion(errorThrowingRepository, versionStorage)
 
 		// Act & Assert
 		await expect(errorUseCase.execute(version)).rejects.toThrow(
@@ -202,7 +202,7 @@ describe("Save Version", () => {
 				throw new Error(errorMessage)
 			},
 		}
-		const errorUseCase = new SaveVersionUseCase(errorThrowingRepository, versionStorage)
+		const errorUseCase = new SaveVersion(errorThrowingRepository, versionStorage)
 
 		// Act & Assert
 		await expect(errorUseCase.execute(version)).rejects.toThrow(

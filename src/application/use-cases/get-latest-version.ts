@@ -1,12 +1,12 @@
 import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { VersionSnapshot } from "@domain/project-history/version/version-snapshot"
-import { GetLatestVersion } from "@app/ports/use-cases/get-latest-version"
+import { GetLatestVersionUseCase } from "@app/ports/use-cases/get-latest-version"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 import { Version } from "@domain/project-history/version/version"
 import { VersionStorage } from "@app/ports/storage/version-storage"
 
-export class GetLatestVersionUseCase implements GetLatestVersion {
+export class GetLatestVersion implements GetLatestVersionUseCase {
 	constructor(
 		private readonly historyRepo: ProjectHistoryRepository,
 		private readonly versionStorage: VersionStorage,

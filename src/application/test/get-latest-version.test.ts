@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
-import { GetLatestVersionUseCase } from "@app/use-cases/get-latest-version"
+import { GetLatestVersion } from "@app/use-cases/get-latest-version"
 import { InMemoryProjectHistoryRepository } from "@app/test/mocks/in-memory-project-history-repo"
 import { InMemoryVersionStorage } from "@app/test/mocks/in-memory-version-storage"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
@@ -9,14 +9,14 @@ import { Version } from "@domain/project-history/version/version"
 import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
 
 describe("Get Latest Version", () => {
-	let getLatestVersionUseCase: GetLatestVersionUseCase
+	let getLatestVersionUseCase: GetLatestVersion
 	let repository: ProjectHistoryRepository
 	let versionStorage: VersionStorage
 
 	beforeEach(() => {
 		repository = new InMemoryProjectHistoryRepository()
 		versionStorage = new InMemoryVersionStorage()
-		getLatestVersionUseCase = new GetLatestVersionUseCase(repository, versionStorage)
+		getLatestVersionUseCase = new GetLatestVersion(repository, versionStorage)
 	})
 
 	it("should successfully retrieve the latest version with artifacts", async () => {
@@ -102,7 +102,7 @@ describe("Get Latest Version", () => {
 				throw new Error(errorMessage)
 			},
 		}
-		const errorUseCase = new GetLatestVersionUseCase(repository, errorThrowingStorage)
+		const errorUseCase = new GetLatestVersion(repository, errorThrowingStorage)
 
 		// Act & Assert
 		await expect(errorUseCase.execute(projectHistory.id)).rejects.toThrow(
@@ -155,7 +155,7 @@ describe("Get Latest Version", () => {
 				throw new Error(errorMessage)
 			},
 		}
-		const errorUseCase = new GetLatestVersionUseCase(errorThrowingRepository, versionStorage)
+		const errorUseCase = new GetLatestVersion(errorThrowingRepository, versionStorage)
 
 		// Act & Assert
 		await expect(errorUseCase.execute("some-id")).rejects.toThrow(`Error pulling artifacts: Error: ${errorMessage}`)

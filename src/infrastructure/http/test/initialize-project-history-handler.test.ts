@@ -2,10 +2,10 @@ import { APIGatewayProxyEvent } from "aws-lambda"
 import { describe, it, expect, beforeEach } from "@rstest/core"
 
 import { InMemoryProjectHistoryRepository } from "@app/test/mocks/in-memory-project-history-repo"
-import { InitializeProjectHistoryUseCase } from "@app/use-cases/initialize-project-history"
+import { InitializeProjectHistory } from "@app/use-cases/initialize-project-history"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { createInitializeProjectHistoryHandler } from "@infra/http/factories/initialize-project-history-handler"
-import { InitializeProjectHistory } from "@app/ports/use-cases/initialize-project-history"
+import { InitializeProjectHistoryUseCase } from "@app/ports/use-cases/initialize-project-history"
 
 describe("Initialize Project History Handler", () => {
 	let initializeProjectHistoryUseCase: InitializeProjectHistoryUseCase
@@ -14,7 +14,7 @@ describe("Initialize Project History Handler", () => {
 
 	beforeEach(() => {
 		repository = new InMemoryProjectHistoryRepository()
-		initializeProjectHistoryUseCase = new InitializeProjectHistoryUseCase(repository)
+		initializeProjectHistoryUseCase = new InitializeProjectHistory(repository)
 
 		// we use the real use case here (still unit-ish, all in-memory)
 		handler = createInitializeProjectHistoryHandler(initializeProjectHistoryUseCase as InitializeProjectHistory)
@@ -38,7 +38,7 @@ describe("Initialize Project History Handler", () => {
 
 	it("propagates errors from use case through errorHandler", async () => {
 		// create a handler with a fake use case that always throws
-		const failingUseCase: InitializeProjectHistory = {
+		const failingUseCase: InitializeProjectHistoryUseCase = {
 			execute: async () => {
 				throw new Error("boom")
 			},

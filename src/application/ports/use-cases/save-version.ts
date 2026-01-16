@@ -1,6 +1,6 @@
 import { Version } from "@domain/project-history/version/version"
 
-export interface SaveVersion {
+export interface SaveVersionUseCase {
 	/**
 	 * Saves a new version snapshot to the project history.
 	 *

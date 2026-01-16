@@ -1,4 +1,4 @@
-export interface InitializeProjectHistory {
+export interface InitializeProjectHistoryUseCase {
 	/**
 	 * Initializes a new project history.
 	 *
