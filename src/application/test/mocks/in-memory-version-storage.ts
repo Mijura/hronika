@@ -71,4 +71,18 @@ export class InMemoryVersionStorage implements VersionStorage {
 
 		return version
 	}
+
+	async remove(projectHistoryId: string): Promise<void> {
+		// Remove all entries that start with the projectHistoryId folder path
+		const keysToDelete: string[] = []
+		for (const key of this.storage.keys()) {
+			if (key.startsWith(`${projectHistoryId}/`)) {
+				keysToDelete.push(key)
+			}
+		}
+
+		for (const key of keysToDelete) {
+			this.storage.delete(key)
+		}
+	}
 }
