@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda"
 import { describe, it, expect, beforeEach } from "@rstest/core"
 
-import { SaveVersion } from "@app/ports/use-cases/save-version"
+import { SaveVersionUseCase } from "@app/ports/use-cases/save-version"
 import { createSaveVersionHandler } from "@infra/http/factories/save-version-handler"
 import { Version } from "@domain/project-history/version/version"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
@@ -30,7 +30,7 @@ describe("Save Version Handler", () => {
 			},
 		}
 
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => mockVersion,
 		}
 
@@ -55,7 +55,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when body is missing", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -74,7 +74,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when body is null", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -95,7 +95,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when body is empty string", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -116,7 +116,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when projectHistoryId is missing", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -141,7 +141,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when buildArtifacts is missing", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -164,7 +164,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when sourceCodeArtifacts is missing", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -187,7 +187,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when buildArtifacts is not an object", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -211,7 +211,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when sourceCodeArtifacts is not an object", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -235,7 +235,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 400 when body contains invalid JSON", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -253,7 +253,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 404 when ProjectHistoryNotFound is thrown", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new ProjectHistoryNotFound("non-existent-id")
 			},
@@ -282,7 +282,7 @@ describe("Save Version Handler", () => {
 	})
 
 	it("returns 500 when an unexpected error is thrown", async () => {
-		const mockUseCase: SaveVersion = {
+		const mockUseCase: SaveVersionUseCase = {
 			execute: async () => {
 				throw new Error("Unexpected error")
 			},

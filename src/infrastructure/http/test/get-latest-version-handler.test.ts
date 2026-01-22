@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda"
 import { describe, it, expect, beforeEach } from "@rstest/core"
 
-import { GetLatestVersion } from "@app/ports/use-cases/get-latest-version"
+import { GetLatestVersionUseCase } from "@app/ports/use-cases/get-latest-version"
 import { createGetLatestVersionHandler } from "@infra/http/factories/get-latest-version-handler"
 import { Version } from "@domain/project-history/version/version"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
@@ -30,7 +30,7 @@ describe("Get Latest Version Handler", () => {
 			},
 		}
 
-		const mockUseCase: GetLatestVersion = {
+		const mockUseCase: GetLatestVersionUseCase = {
 			execute: async () => mockVersion,
 		}
 
@@ -53,7 +53,7 @@ describe("Get Latest Version Handler", () => {
 	})
 
 	it("returns 400 when projectHistoryId is missing", async () => {
-		const mockUseCase: GetLatestVersion = {
+		const mockUseCase: GetLatestVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -74,7 +74,7 @@ describe("Get Latest Version Handler", () => {
 	})
 
 	it("returns 400 when pathParameters is undefined", async () => {
-		const mockUseCase: GetLatestVersion = {
+		const mockUseCase: GetLatestVersionUseCase = {
 			execute: async () => {
 				throw new Error("Should not be called")
 			},
@@ -93,7 +93,7 @@ describe("Get Latest Version Handler", () => {
 	})
 
 	it("returns 404 when ProjectHistoryNotFound is thrown", async () => {
-		const mockUseCase: GetLatestVersion = {
+		const mockUseCase: GetLatestVersionUseCase = {
 			execute: async () => {
 				throw new ProjectHistoryNotFound("non-existent-id")
 			},
@@ -116,7 +116,7 @@ describe("Get Latest Version Handler", () => {
 	})
 
 	it("returns 500 when an unexpected error is thrown", async () => {
-		const mockUseCase: GetLatestVersion = {
+		const mockUseCase: GetLatestVersionUseCase = {
 			execute: async () => {
 				throw new Error("Unexpected error")
 			},

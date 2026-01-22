@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "@rstest/core"
+import { describe, it, expect, beforeEach, afterEach } from "@rstest/core"
 import { S3VersionStorage } from "@infra/storage/s3-version-storage"
 import { Version } from "@domain/project-history/version/version"
 import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
@@ -22,6 +22,14 @@ describe("S3 Version Storage", () => {
 			throw new Error("VERSION_CONTROL_BUCKET is not set")
 		}
 		versionStorage = new S3VersionStorage(bucket)
+	})
+
+	afterEach(async () => {
+		try {
+			await versionStorage.remove(projectHistoryId)
+		} catch (error) {
+			console.error(`Failed to clean up test data for ${projectHistoryId}:`, error)
+		}
 	})
 
 	it("should persist build and source artifacts and return a snapshot with generated paths", async () => {

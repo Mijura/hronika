@@ -42,4 +42,8 @@ export class S3VersionStorage implements VersionStorage {
 
 		return version
 	}
+
+	async remove(projectHistoryId: string): Promise<void> {
+		await this.s3Storage.deleteFolder(projectHistoryId)
+	}
 }
