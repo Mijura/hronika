@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  project-versioning (local)
+
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+      AllowHeaders: "'content-type'"
+      AllowOrigin: "'*'"
+
+Resources:
+  InitializeProjectHistoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/handlers/initialize-project-history.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Initialize a project history
+      Environment:
+        Variables:
+          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          PROJECT_HISTORY_TABLE: ProjectHistoryLocal
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project-history
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/initialize-project-history.ts
+
+  SaveVersionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/handlers/save-version.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Save project version
+      Environment:
+        Variables:
+          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          PROJECT_HISTORY_TABLE: ProjectHistoryLocal
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project-history/{projectHistoryId}/versions
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/save-version.ts
+
+  GetLatestVersionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/handlers/get-latest-version.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Fetch latest project version
+      Environment:
+        Variables:
+          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          PROJECT_HISTORY_TABLE: ProjectHistoryLocal
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project-history/{projectHistoryId}/versions/latest
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/get-latest-version.ts
+
+Outputs:
+  LocalVersioningApiUrl:
+    Description: Local API base URL (used by sam local start-api port)
+    Value: "http://127.0.0.1:<PORT>/"
