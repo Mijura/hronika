@@ -92,22 +92,22 @@ Outputs:
     Description: ARN of InitializeProjectHistoryFunction (for platform-serverless-api integration)
     Value: !GetAtt InitializeProjectHistoryFunction.Arn
     Export:
-      Name: ProjectVersioning-InitializeProjectHistoryFunctionArn
+      Name: !Sub "${AWS::StackName}-InitializeProjectHistoryFunctionArn"
 
   SaveVersionFunctionArn:
     Description: ARN of SaveVersionFunction (for platform-serverless-api integration)
     Value: !GetAtt SaveVersionFunction.Arn
     Export:
-      Name: ProjectVersioning-SaveVersionFunctionArn
+      Name: !Sub "${AWS::StackName}-SaveVersionFunctionArn"
 
   GetLatestVersionFunctionArn:
     Description: ARN of GetLatestVersionFunction (for platform-serverless-api integration)
     Value: !GetAtt GetLatestVersionFunction.Arn
     Export:
-      Name: ProjectVersioning-GetLatestVersionFunctionArn
+      Name: !Sub "${AWS::StackName}-GetLatestVersionFunctionArn"
 
   ProjectHistoryTableName:
     Description: DynamoDB table name
     Value: !Ref ProjectHistoryTable
     Export:
-      Name: ProjectVersioning-ProjectHistoryTableName
+      Name: !Sub "${AWS::StackName}-ProjectHistoryTableName"
