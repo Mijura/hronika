@@ -1,3 +1,3 @@
-# Chronicle
+# Hronika
 
-File artifact history
+Hronika is a versioned artifact storage for AI systems.
