@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { schema } from "@infra/http/schemas/version"
-import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
+import { Responses, schemaValidator, ValidationError } from "@jigjoy-ai/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { Version } from "@domain/project-history/version/version"
 import { SaveVersion } from "@app/ports/use-cases/save-version"

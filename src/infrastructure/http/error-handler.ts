@@ -1,4 +1,4 @@
-import { Responses } from "@jigjoy-io/serverless-core"
+import { Responses } from "@jigjoy-ai/serverless-core"
 
 export function errorHandler(error: Error | unknown) {
 	console.error(error)

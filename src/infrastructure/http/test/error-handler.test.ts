@@ -1,6 +1,6 @@
 import { describe, it, expect } from "@rstest/core"
 import { errorHandler } from "@infra/http/error-handler"
-import { ValidationError } from "@jigjoy-io/serverless-core"
+import { ValidationError } from "@jigjoy-ai/serverless-core"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 
 describe("Error Handler", () => {

@@ -1,5 +1,5 @@
 import { APIGatewayProxyResult } from "aws-lambda"
-import { Responses } from "@jigjoy-io/serverless-core"
+import { Responses } from "@jigjoy-ai/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { InitializeProjectHistory } from "@app/ports/use-cases/initialize-project-history"
 
