@@ -6,6 +6,11 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Resources:
+  VersionControlBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${AWS::StackName}-version-control"
+
   InitializeProjectHistoryFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -16,9 +21,14 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Description: Initialize a project history
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectHistoryTable
+        - S3CrudPolicy:
+            BucketName: !Ref VersionControlBucket
       Environment:
         Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          VERSION_CONTROL_BUCKET: !Ref VersionControlBucket
           PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
     Metadata:
       BuildMethod: esbuild
@@ -39,9 +49,14 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Description: Save project version
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectHistoryTable
+        - S3CrudPolicy:
+            BucketName: !Ref VersionControlBucket
       Environment:
         Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          VERSION_CONTROL_BUCKET: !Ref VersionControlBucket
           PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
     Metadata:
       BuildMethod: esbuild
@@ -62,9 +77,14 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Description: Fetch latest project version
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectHistoryTable
+        - S3CrudPolicy:
+            BucketName: !Ref VersionControlBucket
       Environment:
         Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          VERSION_CONTROL_BUCKET: !Ref VersionControlBucket
           PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
     Metadata:
       BuildMethod: esbuild
@@ -78,7 +98,7 @@ Resources:
   ProjectHistoryTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: ProjectHistory
+      TableName: !Sub "${AWS::StackName}-ProjectHistory"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
@@ -111,3 +131,9 @@ Outputs:
     Value: !Ref ProjectHistoryTable
     Export:
       Name: !Sub "${AWS::StackName}-ProjectHistoryTableName"
+
+  VersionControlBucketName:
+    Description: S3 bucket for version control storage
+    Value: !Ref VersionControlBucket
+    Export:
+      Name: !Sub "${AWS::StackName}-VersionControlBucketName"

@@ -1,11 +1,11 @@
 version = 0.1
 
 [default.deploy.parameters]
-stack_name = "project-versioning"
+stack_name = "spektrum-project-versioning"
 resolve_s3 = true
-s3_prefix = "project-versioning"
+s3_prefix = "spektrum-project-versioning"
 region = "eu-west-1"
-profile = "Development"
+profile = "spektrum-dev"
 confirm_changeset = true
 capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 disable_rollback = true
