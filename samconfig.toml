@@ -1,9 +1,9 @@
 version = 0.1
 
 [default.deploy.parameters]
-stack_name = "spektrum-project-versioning"
+stack_name = "hronika"
 resolve_s3 = true
-s3_prefix = "spektrum-project-versioning"
+s3_prefix = "hronika"
 region = "eu-west-1"
 profile = "spektrum-dev"
 confirm_changeset = true
