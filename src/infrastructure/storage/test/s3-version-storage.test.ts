@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from "@rstest/core"
-import { S3VersionStorage } from "@infra/storage/s3-version-storage"
+import { S3VersionStorage } from "@infra/storage/version-storage/s3-version-storage"
 import { Version } from "@domain/project-history/version/version"
 import { FileArtifacts } from "@domain/project-history/version/file-artifacts"
 

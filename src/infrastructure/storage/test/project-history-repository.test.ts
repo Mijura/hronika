@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from "@rstest/core"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, DeleteCommand } from "@aws-sdk/lib-dynamodb"
-import { DynamoDBProjectHistoryRepository } from "@infra/storage/project-history-repository"
+import { DynamoDBProjectHistoryRepository } from "@infra/storage/project-history-repository/project-history-repository"
 import { ProjectHistory } from "@domain/project-history/project-history"
 import { VersionSnapshot } from "@domain/project-history/version/version-snapshot"
 
