@@ -3,17 +3,15 @@ import { schema } from "@infra/http/schemas/version"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-ai/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { Version } from "@domain/project-history/version/version"
-import { SaveVersion } from "@app/ports/use-cases/save-version"
+import { SaveVersionParams, SaveVersionUseCase } from "@app/ports/use-cases/save-version"
 import { VersionDTO } from "@infra/http/dto/version"
 import { VersionMapper } from "@infra/http/mappers/version"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
+import { extractAuthData } from "@heksagon/http"
 
-export function createSaveVersionHandler(saveVersionUseCase: SaveVersion) {
-	/**
-	 * Lambda handler for saving a new version snapshot to a project history.
-	 *
-	 * @param event - The API Gateway proxy event containing the request body with version data
-	 * @returns A promise that resolves to an API Gateway proxy result indicating success or an error response
-	 */
+export function createSaveVersionHandler(saveVersionUseCase: SaveVersionUseCase) {
+
 	return async function saveVersionHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 		try {
 			const { body } = event
@@ -31,7 +29,12 @@ export function createSaveVersionHandler(saveVersionUseCase: SaveVersion) {
 				sourceCodeArtifacts: versionDTO.sourceCodeArtifacts,
 			}
 
-			const savedVersion: Version = await saveVersionUseCase.execute(version)
+			const auth: Auth<UserData> = extractAuthData(event)
+			const params: SaveVersionParams = {
+				version: version,
+			}
+
+			const savedVersion: Version = await saveVersionUseCase.execute(auth, params)
 			const savedVersionDTO: VersionDTO = VersionMapper.toDTO(savedVersion)
 			return Responses._201(savedVersionDTO)
 		} catch (error) {

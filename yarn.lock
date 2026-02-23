@@ -1168,10 +1168,27 @@
   resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.12.tgz"
   integrity sha512-uqZMTLr/zR/ed4jIGnwSLkaHmPjOjJvnm6TVVitAa08SLS9Z0VM8wIRx7gWbJB5/J54YuIMInDquWyYvQLZkgw==
 
+"@heksagon/app@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.npmjs.org/@heksagon/app/-/app-0.0.14.tgz"
+  integrity sha512-F15tH5D4LCXmg3C4v/q2CpQvzKOn2LwzBktorTuIi8MK8AZDlK+OsYnyRP0r041tb8mkFCgJD/ORIQ5oEhDo4A==
+
+"@heksagon/http@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/@heksagon/http/-/http-0.0.9.tgz"
+  integrity sha512-d6qDhLUv+o7VbuBwXLbu8FyGLMbje6kYpP8PFRml7oAnmt8rWM7XbubAi/KCsxuzBFzpUdC+C0x9IrsvcIxcEQ==
+  dependencies:
+    "@heksagon/app" "^0.0.14"
+
 "@istanbuljs/schema@^0.1.3":
   version "0.1.3"
   resolved "https://registry.npmjs.org/@istanbuljs/schema/-/schema-0.1.3.tgz"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
+
+"@jigjoy-ai/auth@^0.1.0":
+  version "0.1.0"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/auth/0.1.0/45041426d4c2bc0b770aa8274bf36588f83ff7ba"
+  integrity sha512-wDQBqq3e4Rf0To4H8OIzpH/dxQ4COEze5WuVpRBdvh+c9jOXnHfHnYI2/iPWz4Em5nEqph55KKVFfv0kxTu6Bw==
 
 "@jigjoy-ai/file-artifacts@^0.0.8":
   version "0.0.8"

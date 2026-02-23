@@ -1,11 +1,9 @@
 import { Version } from "@domain/project-history/version/version"
+import { UserData } from "@jigjoy-ai/auth"
+import { AuthenticatedUseCase } from "@heksagon/app"
 
-export interface SaveVersionUseCase {
-	/**
-	 * Saves a new version snapshot to the project history.
-	 *
-	 * @param version - The version containing project history ID, build artifacts, and source code artifacts
-	 * @returns A promise that resolves saved version
-	 */
-	execute(version: Version): Promise<Version>
+export type SaveVersionParams = {
+	version: Version
 }
+
+export type SaveVersionUseCase = AuthenticatedUseCase<UserData, SaveVersionParams, Version>

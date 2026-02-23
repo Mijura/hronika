@@ -1,10 +1,12 @@
 import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { VersionSnapshot } from "@domain/project-history/version/version-snapshot"
-import { GetLatestVersionUseCase } from "@app/ports/use-cases/get-latest-version"
+import { GetLatestVersionParams, GetLatestVersionUseCase } from "@app/ports/use-cases/get-latest-version"
 import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
 import { Version } from "@domain/project-history/version/version"
 import { VersionStorage } from "@app/ports/storage/version-storage"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
 export class GetLatestVersion implements GetLatestVersionUseCase {
 	constructor(
@@ -12,16 +14,13 @@ export class GetLatestVersion implements GetLatestVersionUseCase {
 		private readonly versionStorage: VersionStorage,
 	) {}
 
-	/**
-	 * Retrieves the latest version of a project, including build and source code artifacts.
-	 *
-	 * @param projectHistoryId - The unique identifier of the project history
-	 * @returns A promise that resolves to the latest version with build and source code artifacts
-	 * @throws {ProjectHistoryNotFound} If the project history with the given ID does not exist
-	 * @throws {Error} If the project history is empty or if there's an error pulling artifacts
-	 */
-	async execute(projectHistoryId: string): Promise<Version> {
+
+	async execute(auth: Auth<UserData>, params: GetLatestVersionParams): Promise<Version> {
 		try {
+
+			console.log(`Auth data: ${JSON.stringify(auth)}`)
+
+			const { projectHistoryId } = params
 			const history: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
 
 			if (!history) {
