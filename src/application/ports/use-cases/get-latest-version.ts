@@ -1,11 +1,9 @@
 import { Version } from "@domain/project-history/version/version"
+import { AuthenticatedUseCase } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-export interface GetLatestVersionUseCase {
-	/**
-	 * Retrieves the latest version of a project.
-	 *
-	 * @param projectHistoryId - The unique identifier of the project history
-	 * @returns A promise that resolves to the latest version with build and source code artifacts
-	 */
-	execute(projectHistoryId: string): Promise<Version>
+export type GetLatestVersionParams = {
+	projectHistoryId: string
 }
+
+export type GetLatestVersionUseCase = AuthenticatedUseCase<UserData, GetLatestVersionParams, Version>

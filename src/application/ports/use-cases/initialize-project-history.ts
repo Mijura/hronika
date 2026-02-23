@@ -1,8 +1,4 @@
-export interface InitializeProjectHistoryUseCase {
-	/**
-	 * Initializes a new project history.
-	 *
-	 * @returns A promise that resolves to the unique identifier of the newly created project history
-	 */
-	execute(): Promise<string>
-}
+import { UserData } from "@jigjoy-ai/auth"
+import { AuthenticatedUseCase } from "@heksagon/app"
+
+export type InitializeProjectHistoryUseCase = AuthenticatedUseCase<UserData, void, string>

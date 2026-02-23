@@ -1,18 +1,15 @@
 import { ProjectHistory } from "@domain/project-history/project-history"
 import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
 import { InitializeProjectHistoryUseCase } from "@app/ports/use-cases/initialize-project-history"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
 export class InitializeProjectHistory implements InitializeProjectHistoryUseCase {
+	
 	constructor(private readonly historyRepo: ProjectHistoryRepository) {}
 
-	/**
-	 * Initializes a new project history and saves it to the repository.
-	 *
-	 * @returns A promise that resolves to the unique identifier of the newly created project history
-	 * @throws {Error} If there's an error during the initialization process
-	 */
-	async execute(): Promise<string> {
-		console.log(`Project history initialization in progress`)
+	async execute(auth: Auth<UserData>): Promise<string> {
+		console.log(`Auth data: ${JSON.stringify(auth)}`)
 
 		const history: ProjectHistory = ProjectHistory.create()
 
