@@ -18,7 +18,7 @@ export function createGetLatestVersionHandler(getLatestVersionUseCase: GetLatest
 				throw new ValidationError("Missing required path parameter: projectHistoryId")
 			}
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 
 			const params: GetLatestVersionParams = {
 				projectHistoryId: projectHistoryId,

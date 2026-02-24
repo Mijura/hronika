@@ -10,7 +10,7 @@ export function createInitializeProjectHistoryHandler(initializeProjectHistoryUs
 
 	return async function initializeProjectHistoryHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
-		const auth: Auth<UserData> = extractAuthData(event)	
+		const auth: Auth<UserData> = extractAuthData(event.headers)	
 		try {
 			const historyId: string = await initializeProjectHistoryUseCase.execute(auth)
 			return Responses._201(historyId)

@@ -29,7 +29,7 @@ export function createSaveVersionHandler(saveVersionUseCase: SaveVersionUseCase)
 				sourceCodeArtifacts: versionDTO.sourceCodeArtifacts,
 			}
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 			const params: SaveVersionParams = {
 				version: version,
 			}
