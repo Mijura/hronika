@@ -1,15 +1,19 @@
 version = 0.1
 
-[default.deploy.parameters]
+[dev.deploy.parameters]
 stack_name = "hronika"
 resolve_s3 = true
 s3_prefix = "hronika"
 region = "eu-west-1"
-profile = "spektrum-dev"
-confirm_changeset = true
 capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 disable_rollback = true
 image_repositories = []
 
-[default.global.parameters]
+[prod.deploy.parameters]
+stack_name = "hronika"
+resolve_s3 = true
+s3_prefix = "hronika"
 region = "eu-west-1"
+capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
+disable_rollback = true
+image_repositories = []
