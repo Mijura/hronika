@@ -13,3 +13,13 @@ image_repositories = []
 
 [default.global.parameters]
 region = "eu-west-1"
+
+[prod.deploy.parameters]
+stack_name = "hronika"
+resolve_s3 = true
+s3_prefix = "hronika"
+region = "eu-west-1"
+capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
+confirm_changeset = true
+disable_rollback = true
+image_repositories = []
