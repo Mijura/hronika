@@ -9,7 +9,7 @@ Resources:
   VersionControlBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${AWS::StackName}-version-control"
+      BucketName: !Sub "${AWS::StackName}-version-control-${AWS::AccountId}"
 
   InitializeProjectHistoryFunction:
     Type: AWS::Serverless::Function
