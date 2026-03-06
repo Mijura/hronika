@@ -1,0 +1,60 @@
+openapi: 3.0.1
+info:
+    title: Project Versioning API
+    version: "1.0.0"
+    description: API for initializing project history and managing versions.
+
+servers:
+    - url: http://localhost:8001
+      description: Local SAM API
+
+paths:
+    /initialize-project-history:
+        post:
+            summary: Initialize project history
+            operationId: InitializeProjectHistory
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            additionalProperties: true # keep it loose for now
+            responses:
+                "200":
+                    description: Project history initialized
+
+    /save-version/:
+        post:
+            summary: Save project version
+            operationId: SaveVersion
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            additionalProperties: true
+            responses:
+                "200":
+                    description: Project version saved
+
+    /get-latest-version/{projectHistoryId}:
+        get:
+            summary: Get latest project version
+            operationId: GetLatestVersion
+            parameters:
+                - in: path
+                  name: projectHistoryId
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the project history record
+            responses:
+                "200":
+                    description: Latest project version
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                additionalProperties: true

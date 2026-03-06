@@ -1,40 +1,35 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: >
-  project-versioning
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  Hronika is a versioned artifact storage service for the Spektrum AI coding platform.
 
 Transform:
-- AWS::Serverless-2016-10-31
-
-Globals:
-  Api:
-    Cors:
-      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
-      AllowHeaders: "'content-type'"
-      AllowOrigin: "'*'"
+  - AWS::Serverless-2016-10-31
 
 Resources:
+  VersionControlBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${AWS::StackName}-version-control-${AWS::AccountId}"
 
   InitializeProjectHistoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/initialize-project-history.initializeProjectHistoryHandler
+      Handler: src/infrastructure/http/handlers/initialize-project-history.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
       Description: Initialize a project history
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectHistoryTable
+        - S3CrudPolicy:
+            BucketName: !Ref VersionControlBucket
       Environment:
         Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          VERSION_CONTROL_BUCKET: !Ref VersionControlBucket
           PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /initilaize-project-history
-            Method: POST
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -42,28 +37,27 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/initialize-project-history.ts
+          - src/infrastructure/http/handlers/initialize-project-history.ts
 
   SaveVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/save-artifacts.saveVersionHandler
+      Handler: src/infrastructure/http/handlers/save-version.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
       Description: Save project version
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectHistoryTable
+        - S3CrudPolicy:
+            BucketName: !Ref VersionControlBucket
       Environment:
         Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          VERSION_CONTROL_BUCKET: !Ref VersionControlBucket
           PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /save-version/
-            Method: POST
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -71,28 +65,27 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/save-version.ts
+          - src/infrastructure/http/handlers/save-version.ts
 
-  FetchArtifactsFunction:
+  GetLatestVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/get-latest-version.getLatestVersionHandler
+      Handler: src/infrastructure/http/handlers/get-latest-version.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
       Description: Fetch latest project version
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectHistoryTable
+        - S3CrudPolicy:
+            BucketName: !Ref VersionControlBucket
       Environment:
         Variables:
-          VERSION_CONTROL_BUCKET: "{{resolve:secretsmanager:vars:SecretString:VersionControlBucket}}"
+          VERSION_CONTROL_BUCKET: !Ref VersionControlBucket
           PROJECT_HISTORY_TABLE: !Ref ProjectHistoryTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /get-latest-version/{projectHistoryId}
-            Method: GET
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -100,12 +93,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/get-latest-version.ts
+          - src/infrastructure/http/handlers/get-latest-version.ts
 
   ProjectHistoryTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: ProjectHistory
+      TableName: !Sub "${AWS::StackName}-ProjectHistory"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
@@ -115,8 +108,32 @@ Resources:
           KeyType: HASH
 
 Outputs:
-  VersionControlSystemApi:
-    Description: "API Gateway URL for project versioning"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  InitializeProjectHistoryFunctionArn:
+    Description: ARN of InitializeProjectHistoryFunction (for platform-serverless-api integration)
+    Value: !GetAtt InitializeProjectHistoryFunction.Arn
     Export:
-      Name: VersionControlSystemApi 
+      Name: !Sub "${AWS::StackName}-InitializeProjectHistoryFunctionArn"
+
+  SaveVersionFunctionArn:
+    Description: ARN of SaveVersionFunction (for platform-serverless-api integration)
+    Value: !GetAtt SaveVersionFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-SaveVersionFunctionArn"
+
+  GetLatestVersionFunctionArn:
+    Description: ARN of GetLatestVersionFunction (for platform-serverless-api integration)
+    Value: !GetAtt GetLatestVersionFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-GetLatestVersionFunctionArn"
+
+  ProjectHistoryTableName:
+    Description: DynamoDB table name
+    Value: !Ref ProjectHistoryTable
+    Export:
+      Name: !Sub "${AWS::StackName}-ProjectHistoryTableName"
+
+  VersionControlBucketName:
+    Description: S3 bucket for version control storage
+    Value: !Ref VersionControlBucket
+    Export:
+      Name: !Sub "${AWS::StackName}-VersionControlBucketName"

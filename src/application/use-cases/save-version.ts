@@ -1,43 +1,39 @@
-import { VersionDTO } from "@application/dto/version"
-import { ProjectHistory } from "@domain/entities/project-history"
-import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
-import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { SaveVersion } from "@domain/use-cases/save-version"
-import { NotFoundError } from "@jigjoy-io/serverless-core"
+import { ProjectHistory } from "@domain/project-history/project-history"
+import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
+import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
+import { SaveVersionParams, SaveVersionUseCase } from "@app/ports/use-cases/save-version"
+import { Version } from "@domain/project-history/version/version"
+import { VersionStorage } from "@app/ports/storage/version-storage"
+import { UserData } from "@jigjoy-ai/auth"
+import { Auth } from "@heksagon/app"
 
-export class SaveVersionUseCase implements SaveVersion {
+export class SaveVersion implements SaveVersionUseCase {
+	constructor(
+		private readonly historyRepo: ProjectHistoryRepository,
+		private readonly versionStorage: VersionStorage,
+	) {}
 
-    constructor(
-        private readonly projectHistoryRepository: ProjectHistoryRepository,
-        private readonly artifactsStorage: FileArtifactsStorage
-    ) {}
+	async execute(auth: Auth<UserData>, params: SaveVersionParams): Promise<Version> {
+		try {
 
-    async execute(versionDTO: VersionDTO): Promise<void> {
-        
-        try {
+			const { version } = params
+			console.log(`Auth data: ${JSON.stringify(auth)}`)
+			
+			const projectHistoryId = version.projectHistoryId
+			const projectHistory: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
 
-            const { projectHistoryId, buildArtifacts, sourceCodeArtifacts } = versionDTO
-            const projectHistory: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
+			if (!projectHistory) {
+				throw new ProjectHistoryNotFound(projectHistoryId)
+			}
 
-            if (!projectHistory) {
-                throw new NotFoundError('Project history not found')
-            }
+			const snapshot = await this.versionStorage.save(version)
 
-            const snapshot = projectHistory.addSnapshot()
+			projectHistory.addSnapshot(snapshot)
+			await this.historyRepo.save(projectHistory)
 
-            const bucket = process.env.VERSION_CONTROL_BUCKET
-            if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
-
-            const sourceCodePromise = this.artifactsStorage.upload(bucket, snapshot.sourceCodePath, sourceCodeArtifacts)
-            const buildPromise = this.artifactsStorage.upload(bucket, snapshot.buildPath, buildArtifacts)
-
-            await Promise.all([sourceCodePromise, buildPromise])
-
-            // Update the history
-            await this.projectHistoryRepository.save(projectHistory)
-        } catch (error) {
-            throw new Error(`Error during saving artifacts version: ${error}`)
-        }
-    }
-
+			return version
+		} catch (error) {
+			throw new Error(`Error during saving artifacts version: ${error}`)
+		}
+	}
 }

@@ -1,52 +1,42 @@
-import { ProjectHistory } from "@domain/entities/project-history"
-import { FileArtifactsStorage } from "@domain/ports/file-artifacts-storage"
-import { ProjectHistoryRepository } from "@domain/ports/project-history-repository"
-import { VersionSnapshot } from "@domain/entities/version-snapshot"
-import { NotFoundError } from "@jigjoy-io/serverless-core"
-import { GetLatestVersion } from "@domain/use-cases/get-latest-version"
-import { VersionDTO } from "@application/dto/version"
+import { ProjectHistory } from "@domain/project-history/project-history"
+import { ProjectHistoryRepository } from "@app/ports/repositories/project-history-repository"
+import { VersionSnapshot } from "@domain/project-history/version/version-snapshot"
+import { GetLatestVersionParams, GetLatestVersionUseCase } from "@app/ports/use-cases/get-latest-version"
+import { ProjectHistoryNotFound } from "@app/errors/project-history-not-found"
+import { Version } from "@domain/project-history/version/version"
+import { VersionStorage } from "@app/ports/storage/version-storage"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-export class GetLatestVersionUseCase implements GetLatestVersion {
-
-    constructor(
-        private readonly projectHistoryRepository: ProjectHistoryRepository,
-        private readonly artifactsStorage: FileArtifactsStorage
-    ){}
-    
-    async execute(projectHistoryId: string): Promise<VersionDTO> {
-        
-        try {
-            const history: ProjectHistory | null = await this.projectHistoryRepository.get(projectHistoryId)
-
-            if (!history) {
-                throw new NotFoundError('Repository not found')
-            }
-
-            const versionSnapshot: VersionSnapshot | null = history.getLatestSnapshot()
-            if (!versionSnapshot) {
-                throw new Error('Project history is empty')
-            }
-            
-            const bucket = process.env.VERSION_CONTROL_BUCKET
-            if (!bucket) throw new Error('Missing VERSION_CONTROL_BUCKET env variable')
-
-            const [buildArtifacts, sourceCodeArtifacts] = await Promise.all([
-                this.artifactsStorage.download(bucket, versionSnapshot.buildPath),
-                this.artifactsStorage.download(bucket, versionSnapshot.sourceCodePath)
-            ])
-
-            const version: VersionDTO = {
-                projectHistoryId: projectHistoryId, 
-                buildArtifacts: buildArtifacts,
-                sourceCodeArtifacts: sourceCodeArtifacts
-            }
-
-            return version
-
-        } catch (error) {
-            throw new Error(`Error pulling artifacts: ${error}`)
-        }
-    }
+export class GetLatestVersion implements GetLatestVersionUseCase {
+	constructor(
+		private readonly historyRepo: ProjectHistoryRepository,
+		private readonly versionStorage: VersionStorage,
+	) {}
 
 
+	async execute(auth: Auth<UserData>, params: GetLatestVersionParams): Promise<Version> {
+		try {
+
+			console.log(`Auth data: ${JSON.stringify(auth)}`)
+
+			const { projectHistoryId } = params
+			const history: ProjectHistory | null = await this.historyRepo.get(projectHistoryId)
+
+			if (!history) {
+				throw new ProjectHistoryNotFound(projectHistoryId)
+			}
+
+			const snapshot: VersionSnapshot | null = history.getLatestSnapshot()
+			if (!snapshot) {
+				throw new Error("Project history is empty")
+			}
+
+			const version: Version = await this.versionStorage.restore(projectHistoryId, snapshot)
+
+			return version
+		} catch (error) {
+			throw new Error(`Error pulling artifacts: ${error}`)
+		}
+	}
 }

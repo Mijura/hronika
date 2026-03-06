@@ -1,0 +1,25 @@
+import { Responses } from "@jigjoy-ai/serverless-core"
+
+export function errorHandler(error: Error | unknown) {
+	console.error(error)
+
+	let response: any
+
+	if (error instanceof Error) {
+		switch (error.name) {
+			case "ValidationError":
+				response = Responses._400({ errorMessage: error.message })
+				break
+			case "ProjectHistoryNotFoundError":
+				response = Responses._404({ errorMessage: error.message })
+				break
+			default:
+				response = Responses._500({ errorMessage: "Something went wrong" })
+				break
+		}
+	} else {
+		response = Responses._500({ errorMessage: "Something went wrong" })
+	}
+
+	return response
+}
